@@ -8,7 +8,16 @@
 import uinput
 from bluetooth import *
 
-device = uinput.Device([uinput.KEY_E])
+device = uinput.Device([
+    uinput.KEY_X,
+    uinput.KEY_Y,
+    uinput.KEY_A,
+    uinput.KEY_B,
+    uinput.KEY_UP,
+    uinput.KEY_LEFT,
+    uinput.KEY_RIGHT,
+    uinput.KEY_DOWN
+    ])
 
 server_sock=BluetoothSocket( RFCOMM )
 server_sock.bind(("",PORT_ANY))
@@ -34,8 +43,22 @@ try:
     while True:
         data = client_sock.recv(1024)
         if len(data) == 0: break
-        print "received [%s]" % data
-        device.emit_click(uinput.KEY_E)
+        if data == "KEY_X":
+            device.emit_click(uinput.KEY_X)
+        elif data == "KEY_Y":
+            device.emit_click(uinput.KEY_Y)
+        elif data == "KEY_A":
+            device.emit_click(uinput.KEY_A)
+        elif data == "KEY_B":
+            device.emit_click(uinput.KEY_B)
+        elif data == "KEY_UP":
+            device.emit_click(uinput.KEY_UP)
+        elif data == "KEY_LEFT":
+            device.emit_click(uinput.KEY_LEFT)
+        elif data == "KEY_RIGHT":
+            device.emit_click(uinput.KEY_RIGHT)
+        elif data == "KEY_DOWN":
+            device.emit_click(uinput.KEY_DOWN)
 except IOError:
     pass
 
