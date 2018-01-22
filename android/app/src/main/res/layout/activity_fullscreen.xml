@@ -1,56 +1,22 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#0099cc"
-    tools:context="com.threbrooks.bluetoothkeyboard.FullscreenActivity">
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/GridLayout1"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:columnCount="8"
+android:rowCount="3"
+android:orientation="horizontal"
+tools:context="com.threbrooks.bluetoothkeyboard.FullscreenActivity"
+    android:background="#000000">
+    <!-- Row 1 -->
+    <Button android:id="@+id/bArrowUp" android:text="#" android:layout_column="1" android:layout_row="0"/>
+    <Button android:id="@+id/bX" android:text="X"  android:layout_column="6" android:layout_row="0"/>
 
-    <!-- The primary full-screen view. This can be replaced with whatever view
-         is needed to present your content, e.g. VideoView, SurfaceView,
-         TextureView, etc. -->
-    <TextView
-        android:id="@+id/fullscreen_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:keepScreenOn="true"
-        android:text="@string/dummy_content"
-        android:textColor="#33b5e5"
-        android:textSize="50sp"
-        android:textStyle="bold" />
+    <Button android:id="@+id/bArrowLeft" android:text="#" android:layout_column="0" android:layout_row="1"/>
+    <Button android:id="@+id/bArrowRight" android:text="#" android:layout_column="2" android:layout_row="1"/>
+    <Button android:id="@+id/bY" android:text="Y"  android:layout_column="5" android:layout_row="1"/>
+    <Button android:id="@+id/bA" android:text="A"  android:layout_column="7" android:layout_row="1"/>
 
-    <!-- This FrameLayout insets its children based on system windows using
-         android:fitsSystemWindows. -->
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
-
-        <LinearLayout
-            android:id="@+id/fullscreen_content_controls"
-            style="?metaButtonBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
-            android:background="@color/black_overlay"
-            android:orientation="horizontal"
-            tools:ignore="UselessParent">
-
-            <Button
-                android:id="@+id/dummy_button"
-                style="?metaButtonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/dummy_button" />
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/sendButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="send" />
-    </FrameLayout>
-
-</FrameLayout>
+    <Button android:id="@+id/bArrowDown" android:text="#"  android:layout_column="1" android:layout_row="2"/>
+    <Button android:id="@+id/bB" android:text="B"   android:layout_column="6" android:layout_row="2"/>
+</GridLayout>

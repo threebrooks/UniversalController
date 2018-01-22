@@ -61,10 +61,12 @@ public class BluetoothManager {
     }
 
     public void writeString(String string) {
+        Log.d(TAG,string);
         mConnectedThread.write(string.getBytes());
     }
 
-    private class ConnectThread extends Thread {
+
+     private class ConnectThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final BluetoothDevice mmDevice;
 
