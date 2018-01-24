@@ -1,6 +1,14 @@
 <resources>
     <string name="app_name">BluetoothKeyboard</string>
+    <string name="action_settings">action settings</string>
 
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="controller_c64">Commodore 64</string>
+    <string name="controller_amiga">Commodore Amiga</string>
+    <string name="controller_snes">Super Nintendo</string>
+
+    <string-array name="controller_init_list">
+        <item>controller_snes</item>
+        <item>controller_c64</item>
+        <item>controller_amiga</item>
+    </string-array>
 </resources>

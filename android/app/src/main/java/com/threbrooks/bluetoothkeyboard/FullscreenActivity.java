@@ -6,19 +6,28 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
 
@@ -28,17 +37,8 @@ import java.util.UUID;
  */
 public class FullscreenActivity extends AppCompatActivity {
 
-    Button mButtonArrowUp = null;
-    Button mButtonArrowLeft = null;
-    Button mButtonArrowRight = null;
-    Button mButtonArrowDown = null;
-    Button mButtonX = null;
-    Button mButtonY = null;
-    Button mButtonA = null;
-    Button mButtonB = null;
-
     String TAG = "BluetoothKeyboard";
-
+/*
     private final View.OnClickListener mArrowListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -51,9 +51,10 @@ public class FullscreenActivity extends AppCompatActivity {
             else if (view == mButtonA) mBluetoothManager.writeString("KEY_A");
             else if (view == mButtonB) mBluetoothManager.writeString("KEY_B");
         }
-    };
+    }; */
 
     BluetoothManager mBluetoothManager = null;
+    ControllerView mControllerView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,24 +64,44 @@ public class FullscreenActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_fullscreen);
 
-        mButtonArrowUp = findViewById(R.id.bArrowUp);
-        mButtonArrowLeft = findViewById(R.id.bArrowLeft);
-        mButtonArrowRight = findViewById(R.id.bArrowRight);
-        mButtonArrowDown = findViewById(R.id.bArrowDown);
-        mButtonX = findViewById(R.id.bX);
-        mButtonY = findViewById(R.id.bY);
-        mButtonA = findViewById(R.id.bA);
-        mButtonB = findViewById(R.id.bB);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.action_bar);
+        setSupportActionBar(myToolbar);
 
-        mButtonArrowUp.setOnClickListener(mArrowListener);
-        mButtonArrowLeft.setOnClickListener(mArrowListener);
-        mButtonArrowRight.setOnClickListener(mArrowListener);
-        mButtonArrowDown.setOnClickListener(mArrowListener);
-        mButtonA.setOnClickListener(mArrowListener);
-        mButtonB.setOnClickListener(mArrowListener);
-        mButtonX.setOnClickListener(mArrowListener);
-        mButtonY.setOnClickListener(mArrowListener);
+        mControllerView = (ControllerView)findViewById(R.id.controller_iv);
 
         mBluetoothManager= new BluetoothManager(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.action_bar, menu);
+
+        MenuItem item = menu.findItem(R.id.action_bar_dropdown);
+        final Spinner actionBarDropDown = (Spinner) item.getActionView();
+
+        Resources res = getResources();
+        final String[] controllerListStringRes = res.getStringArray(R.array.controller_init_list);
+        ArrayList<String> controllerListDisplay = new ArrayList<String>();
+        for(String stringRes : controllerListStringRes) {
+            int resId = res.getIdentifier( getPackageName()+":string/"+stringRes, null, null);
+            controllerListDisplay.add(getResources().getString(resId));
+        }
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_spinner_item, controllerListDisplay);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        actionBarDropDown.setAdapter(spinnerArrayAdapter);
+        actionBarDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                mControllerView.selectController(controllerListStringRes[i]);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        return true;
     }
 }
