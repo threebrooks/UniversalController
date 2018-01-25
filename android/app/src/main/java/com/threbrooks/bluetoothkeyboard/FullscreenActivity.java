@@ -104,6 +104,7 @@ public class FullscreenActivity extends AppCompatActivity {
                     newView = new ControllerSNES(FullscreenActivity.this);
                 }
                 if (newView != null) {
+                    newView.setBluetoothManager(mBluetoothManager);
                     newView.setLayoutParams(new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.MATCH_PARENT));

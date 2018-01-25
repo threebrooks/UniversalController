@@ -60,9 +60,10 @@ public class BluetoothManager {
         }
     }
 
-    public void writeString(String string) {
+    public boolean writeString(String string) {
         Log.d(TAG,string);
-        mConnectedThread.write(string.getBytes());
+        if (mConnectedThread != null) return mConnectedThread.write(string.getBytes());
+        else return false;
     }
 
 
@@ -169,13 +170,15 @@ public class BluetoothManager {
         }
 
         // Call this from the main activity to send data to the remote device.
-        public void write(byte[] bytes) {
+        public boolean write(byte[] bytes) {
             try {
                 mmOutStream.write(bytes);
                 Log.d(TAG, "Wrote "+bytes.length+" bytes");
             } catch (IOException e) {
                 Log.e(TAG, "Error occurred when sending data", e);
+                return false;
             }
+            return true;
         }
 
         // Call this method from the main activity to shut down the connection.

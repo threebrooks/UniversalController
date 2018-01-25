@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
@@ -35,6 +36,7 @@ public abstract class BitmapControllerView extends android.support.v7.widget.App
         mDisplayBitmap = ((BitmapDrawable) res.getDrawable(displayBitmapResId)).getBitmap();
         mMaskBitmap = ((BitmapDrawable) res.getDrawable(maskBitmapResId)).getBitmap();
     }
+
 
     GestureDetector.SimpleOnGestureListener mSimpleGestureListener = new GestureDetector.SimpleOnGestureListener() {
         @Override
@@ -64,6 +66,16 @@ public abstract class BitmapControllerView extends android.support.v7.widget.App
     };
 
     public abstract void onPixelClick(int r, int g, int b);
+
+    private BluetoothManager mBTManager = null;
+
+    public void setBluetoothManager(BluetoothManager manager) {
+        mBTManager = manager;
+    }
+
+    public boolean transmitKey(int keyCode) {
+        return mBTManager.writeString(KeyEvent.keyCodeToString(keyCode));
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
