@@ -19,9 +19,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import java.io.IOException;
@@ -54,7 +56,6 @@ public class FullscreenActivity extends AppCompatActivity {
     }; */
 
     BluetoothManager mBluetoothManager = null;
-    ControllerView mControllerView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +68,6 @@ public class FullscreenActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.action_bar);
         setSupportActionBar(myToolbar);
 
-        mControllerView = (ControllerView)findViewById(R.id.controller_iv);
-
         mBluetoothManager= new BluetoothManager(this);
     }
 
@@ -80,7 +79,7 @@ public class FullscreenActivity extends AppCompatActivity {
         MenuItem item = menu.findItem(R.id.action_bar_dropdown);
         final Spinner actionBarDropDown = (Spinner) item.getActionView();
 
-        Resources res = getResources();
+        final Resources res = getResources();
         final String[] controllerListStringRes = res.getStringArray(R.array.controller_init_list);
         ArrayList<String> controllerListDisplay = new ArrayList<String>();
         for(String stringRes : controllerListStringRes) {
@@ -95,7 +94,27 @@ public class FullscreenActivity extends AppCompatActivity {
         actionBarDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                mControllerView.selectController(controllerListStringRes[i]);
+                BitmapControllerView newView = null;
+                int resId = res.getIdentifier( getPackageName()+":string/"+controllerListStringRes[i], null, null);
+                if (resId == R.string.controller_c64) {
+                    newView = new ControllerCommodore64(FullscreenActivity.this);
+                } else if (resId == R.string.controller_amiga) {
+                    newView = new ControllerCommodoreAmiga(FullscreenActivity.this);
+                } else if (resId == R.string.controller_snes) {
+                    newView = new ControllerSNES(FullscreenActivity.this);
+                }
+                if (newView != null) {
+                    newView.setLayoutParams(new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.MATCH_PARENT));
+                }
+                LinearLayout mainLL = (LinearLayout) findViewById(R.id.MainLinearLayout);
+                int childCount = mainLL.getChildCount();
+                if (childCount > 1) {
+                    mainLL.removeViewAt(childCount - 1);
+                }
+                mainLL.addView(newView);
+                mainLL.requestLayout();
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
