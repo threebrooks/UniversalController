@@ -1,9 +1,4 @@
-# file: rfcomm-server.py
-
-# auth: Albert Huang <albert@csail.mit.edu>
-# desc: simple demonstration of a server application that uses RFCOMM sockets
-#
-# $Id: rfcomm-server.py 518 2007-08-10 07:20:07Z albert $
+#!/usr/bin/python
 
 import uinput
 from bluetooth import *
