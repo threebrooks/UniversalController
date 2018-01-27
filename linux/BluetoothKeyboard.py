@@ -6,16 +6,16 @@ from bluetooth import *
 uuid = "94f39d29-7d6d-437d-973b-fba39e49d4ee"
 
 keyMap = {
-        "KEYCODE_DPAD_UP" : uinput.BTN_DPAD_UP,
-        "KEYCODE_DPAD_LEFT" : uinput.BTN_DPAD_LEFT,
-        "KEYCODE_DPAD_RIGHT" : uinput.BTN_DPAD_RIGHT,
-        "KEYCODE_DPAD_DOWN" : uinput.BTN_DPAD_DOWN,
-        "KEYCODE_BUTTON_START" : uinput.BTN_START,
-        "KEYCODE_BUTTON_SELECT" : uinput.BTN_SELECT,
-        "KEYCODE_BUTTON_X" : uinput.BTN_X,
-        "KEYCODE_BUTTON_Y" : uinput.BTN_Y,
-        "KEYCODE_BUTTON_A" : uinput.BTN_A,
-        "KEYCODE_BUTTON_B" : uinput.BTN_B
+        "KEYCODE_DPAD_UP" : uinput.KEY_UP,
+        "KEYCODE_DPAD_LEFT" : uinput.KEY_LEFT,
+        "KEYCODE_DPAD_RIGHT" : uinput.KEY_RIGHT,
+        "KEYCODE_DPAD_DOWN" : uinput.KEY_DOWN,
+        "KEYCODE_BUTTON_START" : uinput.KEY_F1,
+        "KEYCODE_BUTTON_SELECT" : uinput.KEY_F2,
+        "KEYCODE_BUTTON_X" : uinput.KEY_X,
+        "KEYCODE_BUTTON_Y" : uinput.KEY_Y,
+        "KEYCODE_BUTTON_A" : uinput.KEY_A,
+        "KEYCODE_BUTTON_B" : uinput.KEY_B
         }
 
 log = open("/var/log/bluetoothkeyboard.log","w")
