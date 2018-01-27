@@ -15,9 +15,4 @@
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
-    <!-- <ViewStub
-        android:id="@+id/controller_iv_stub"
-        android:inflatedId="@+id/controller_iv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/> -->
 </LinearLayout>

@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
+import android.drm.DrmStore;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
@@ -37,25 +39,12 @@ import java.util.UUID;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class FullscreenActivity extends AppCompatActivity {
+public class FullscreenActivity extends AppCompatActivity implements BluetoothManager.BluetoothConnectorInterface {
 
     String TAG = "BluetoothKeyboard";
-/*
-    private final View.OnClickListener mArrowListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            if (view == mButtonArrowUp) mBluetoothManager.writeString("KEY_UP");
-            else if (view == mButtonArrowLeft) mBluetoothManager.writeString("KEY_LEFT");
-            else if (view == mButtonArrowRight) mBluetoothManager.writeString("KEY_RIGHT");
-            else if (view == mButtonArrowDown) mBluetoothManager.writeString("KEY_DOWN");
-            else if (view == mButtonX) mBluetoothManager.writeString("KEY_X");
-            else if (view == mButtonY) mBluetoothManager.writeString("KEY_Y");
-            else if (view == mButtonA) mBluetoothManager.writeString("KEY_A");
-            else if (view == mButtonB) mBluetoothManager.writeString("KEY_B");
-        }
-    }; */
 
     BluetoothManager mBluetoothManager = null;
+    ImageView mActionMenuBluetoothIV = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +57,7 @@ public class FullscreenActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.action_bar);
         setSupportActionBar(myToolbar);
 
-        mBluetoothManager= new BluetoothManager(this);
+        mBluetoothManager= new BluetoothManager(this, this);
     }
 
     @Override
@@ -76,8 +65,15 @@ public class FullscreenActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.action_bar, menu);
 
-        MenuItem item = menu.findItem(R.id.action_bar_dropdown);
-        final Spinner actionBarDropDown = (Spinner) item.getActionView();
+        MenuItem dropDownMenuItem = menu.findItem(R.id.action_bar_dropdown);
+        final Spinner actionBarDropDown = (Spinner) dropDownMenuItem.getActionView();
+
+        MenuItem bluetoothMenuItem = menu.findItem(R.id.action_bar_bluetooth);
+        mActionMenuBluetoothIV = (ImageView) bluetoothMenuItem.getActionView();
+        mActionMenuBluetoothIV.setImageResource(R.drawable.bluetooth_disconnected);
+        int margins = 50;
+        mActionMenuBluetoothIV.setPadding(margins, margins, margins, margins);
+        mActionMenuBluetoothIV.setAdjustViewBounds(true);
 
         final Resources res = getResources();
         final String[] controllerListStringRes = res.getStringArray(R.array.controller_init_list);
@@ -123,5 +119,13 @@ public class FullscreenActivity extends AppCompatActivity {
             }
         });
         return true;
+    }
+
+    public void bluetoothConnected() {
+        if (mActionMenuBluetoothIV != null) mActionMenuBluetoothIV.setImageResource(R.drawable.bluetooth_connected);
+    }
+
+    public void bluetoothDisconnected() {
+        if (mActionMenuBluetoothIV != null) mActionMenuBluetoothIV.setImageResource(R.drawable.bluetooth_disconnected);
     }
 }

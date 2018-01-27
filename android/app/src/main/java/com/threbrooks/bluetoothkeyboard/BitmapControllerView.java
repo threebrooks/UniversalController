@@ -49,7 +49,12 @@ public abstract class BitmapControllerView extends android.support.v7.widget.App
         points[0] = e.getX();
         points[1] = e.getY();
         invMat.mapPoints(points);
-        return mMaskBitmap.getPixel((int)points[0],(int)points[1]);
+        if (points[0] >= 0.0f && points[0] < mMaskBitmap.getWidth() && points[1] >= 0.0f && points[1] < mMaskBitmap.getHeight())
+        {
+            return mMaskBitmap.getPixel((int) points[0], (int) points[1]);
+        } else {
+            return 0;
+        }
     }
 
 
@@ -81,14 +86,13 @@ public abstract class BitmapControllerView extends android.support.v7.widget.App
     public boolean onTouchEvent(MotionEvent ev) {
         mScaleDetector.onTouchEvent(ev);
         mGestureDetector.onTouchEvent(ev);
-        if (ev.getActionMasked() == MotionEvent.ACTION_DOWN || ev.getActionMasked() == MotionEvent.ACTION_UP) {
+        if ((ev.getPointerCount() == 1) && (ev.getActionMasked() == MotionEvent.ACTION_DOWN || ev.getActionMasked() == MotionEvent.ACTION_UP)) {
             int maskPixel = getPixelsFromMotionEvent(ev);
             int maskPixelR = Color.red(maskPixel);
             int maskPixelG = Color.green(maskPixel);
             int maskPixelB = Color.blue(maskPixel);
-            Log.d(TAG, "action: " + ev.getAction());
             if (onPixelClick(maskPixelR, maskPixelG, maskPixelB, ev.getActionMasked())) {
-                mVibrator.vibrate(10);
+                if (ev.getActionMasked() == MotionEvent.ACTION_DOWN) mVibrator.vibrate(10);
             }
             return true;
         }

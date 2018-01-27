@@ -6,6 +6,11 @@
         android:title="ActionBar Spinner"
         app:actionViewClass="android.widget.Spinner"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/action_bar_bluetooth"
+        android:title="Bluetooth icon"
+        app:actionViewClass="android.widget.ImageView"
+        app:showAsAction="always" />
     <!-- Settings, should always be in the overflow -->
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"

@@ -27,13 +27,14 @@ public class BluetoothManager {
     BluetoothAdapter mBluetoothAdapter = null;
     int REQUEST_ENABLE_BT = 12345;
 
-    String TAG = "BluetoothKeyboard";
+    String TAG = "BluetoothManager";
     UUID MY_UUID = UUID.fromString("94f39d29-7d6d-437d-973b-fba39e49d4ee");
 
     ConnectThread mConnectThread = null;
+    BluetoothConnectorInterface mIntf = null;
 
-    public BluetoothManager(Activity mainAct) {
-
+    public BluetoothManager(Activity mainAct, BluetoothConnectorInterface intf) {
+        mIntf = intf;
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
             Log.d(TAG,"No bluetooth supported");
@@ -61,8 +62,12 @@ public class BluetoothManager {
         }
     }
 
+    public interface BluetoothConnectorInterface {
+        public void bluetoothConnected();
+        public void bluetoothDisconnected();
+    }
+
     public void writeString(String string) {
-        Log.d(TAG,string);
         if (mConnectThread != null) mConnectThread.write(string.getBytes());
     }
 
@@ -79,6 +84,7 @@ public class BluetoothManager {
 
         public void run() {
             while (!mStopRunning) {
+                mIntf.bluetoothDisconnected();
                 try {
                     // Get a BluetoothSocket to connect with the given BluetoothDevice.
                     // MY_UUID is the app's UUID string, also used in the server code.
@@ -125,14 +131,16 @@ public class BluetoothManager {
                     continue;
                 }
 
+                mIntf.bluetoothConnected();
+
                 while(true) {
                     try {
                         synchronized (mQueue) {
                             mQueue.wait();
-                            if (mQueue.size() > 0) {
+                            while (mQueue.size() > 0) {
                                 byte[] bytes = mQueue.removeLast();
                                 outStream.write(bytes);
-                                Log.d(TAG, "Wrote " + bytes.length + " bytes");
+                                Log.d(TAG, "Sent " + new String(bytes));
                             }
                         }
                     } catch (Exception e) {
