@@ -31,9 +31,11 @@ public class ControllerSNES extends BitmapControllerView {
         else return -1;
     }
 
-    public void onPixelClick(int r, int g, int b, int action) {
+    public boolean onPixelClick(int r, int g, int b, int action) {
         if (r == 255 & g == 255) {
             transmitKey(blueToKeyCode(b), action == MotionEvent.ACTION_DOWN ? "KEY_DOWN" : "KEY_UP");
+            return true;
         }
+        return false;
     }
 }

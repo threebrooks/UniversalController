@@ -65,7 +65,7 @@ public abstract class BitmapControllerView extends android.support.v7.widget.App
         }
     };
 
-    public abstract void onPixelClick(int r, int g, int b, int action);
+    public abstract boolean onPixelClick(int r, int g, int b, int action);
 
     private BluetoothManager mBTManager = null;
 
@@ -87,8 +87,9 @@ public abstract class BitmapControllerView extends android.support.v7.widget.App
             int maskPixelG = Color.green(maskPixel);
             int maskPixelB = Color.blue(maskPixel);
             Log.d(TAG, "action: " + ev.getAction());
-            mVibrator.vibrate(10);
-            onPixelClick(maskPixelR, maskPixelG, maskPixelB, ev.getActionMasked());
+            if (onPixelClick(maskPixelR, maskPixelG, maskPixelB, ev.getActionMasked())) {
+                mVibrator.vibrate(10);
+            }
             return true;
         }
         return false;

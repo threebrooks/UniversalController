@@ -15,6 +15,7 @@ public class ControllerCommodore64 extends BitmapControllerView {
         super(context, R.drawable.controller_c64, R.drawable.controller_c64_mask);
     }
 
-    public void onPixelClick(int r, int g, int b, int action) {
+    public boolean onPixelClick(int r, int g, int b, int action) {
+        return false;
     }
 }

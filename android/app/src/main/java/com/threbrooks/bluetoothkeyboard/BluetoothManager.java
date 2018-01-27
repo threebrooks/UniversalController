@@ -161,6 +161,7 @@ public class BluetoothManager {
         public void write(byte[] bytes) {
             synchronized (mQueue) {
                 mQueue.addFirst(bytes);
+                mQueue.notifyAll();
             }
         }
     }
