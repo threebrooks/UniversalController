@@ -18,6 +18,8 @@ keyMap = {
         "KEYCODE_BUTTON_B" : uinput.BTN_B
         }
 
+log = open("/var/log/bluetoothkeyboard.log","w")
+
 device = uinput.Device(list(keyMap.values()))
 
 server_sock=BluetoothSocket( RFCOMM )
@@ -34,21 +36,31 @@ advertise_service( server_sock, "BluetoothKeyboard",
         )
 
 while True:
-    print "Waiting for connection"
+    log.write("Waiting for connection\n")
+    log.flush()
     client_sock, client_info = server_sock.accept()
-    print "Accepted connection from ", client_info
+    log.write("Accepted connection from "+ str(client_info)+"\n")
+    log.flush()
     
     try:
         while True:
             data = client_sock.recv(1024)
-            if len(data) == 0: break
-            if data in keyMap:
-                print data
-                device.emit_click(keyMap[data])
+            if len(data) == 0: continue
+            els = str(data).split(",") 
+            if els[0] in keyMap:
+                log.write(els[0]+" "+els[1]+"\n")
+                log.flush()
+                if (els[1] == "KEY_DOWN"):
+                  press = 1
+                else:
+                  press = 0
+                device.emit(keyMap[data], press)
             else:
-                print "Key not defined in map!"
+                log.write("Key not defined in map!\n")
+                log.flush()
     except IOError:
-        print "Lost connection"
+        log.write("Lost connection\n")
+        log.flush()
         client_sock.close()
         continue
     
