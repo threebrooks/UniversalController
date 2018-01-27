@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -24,6 +26,8 @@ public abstract class BitmapControllerView extends android.support.v7.widget.App
     private Matrix mM = null;
     Bitmap mDisplayBitmap = null;
     Bitmap mMaskBitmap = null;
+    Vibrator mVibrator = null;
+
     static String TAG = "BitmapControllerView";
 
     public BitmapControllerView(Context context, int displayBitmapResId, int maskBitmapResId) {
@@ -31,6 +35,7 @@ public abstract class BitmapControllerView extends android.support.v7.widget.App
 
         mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
         mGestureDetector = new GestureDetector(context ,mSimpleGestureListener);
+        mVibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 
         Resources res = getResources();
         mDisplayBitmap = ((BitmapDrawable) res.getDrawable(displayBitmapResId)).getBitmap();
@@ -68,8 +73,8 @@ public abstract class BitmapControllerView extends android.support.v7.widget.App
         mBTManager = manager;
     }
 
-    public boolean transmitKey(int keyCode, String action) {
-        return mBTManager.writeString(KeyEvent.keyCodeToString(keyCode)+","+action);
+    public void transmitKey(int keyCode, String action) {
+        mBTManager.writeString(KeyEvent.keyCodeToString(keyCode)+","+action);
     }
 
     @Override
@@ -82,6 +87,7 @@ public abstract class BitmapControllerView extends android.support.v7.widget.App
             int maskPixelG = Color.green(maskPixel);
             int maskPixelB = Color.blue(maskPixel);
             Log.d(TAG, "action: " + ev.getAction());
+            mVibrator.vibrate(10);
             onPixelClick(maskPixelR, maskPixelG, maskPixelB, ev.getActionMasked());
             return true;
         }
