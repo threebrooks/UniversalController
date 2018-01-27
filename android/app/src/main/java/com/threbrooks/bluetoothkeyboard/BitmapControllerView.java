@@ -37,6 +37,16 @@ public abstract class BitmapControllerView extends android.support.v7.widget.App
         mMaskBitmap = ((BitmapDrawable) res.getDrawable(maskBitmapResId)).getBitmap();
     }
 
+    int getPixelsFromMotionEvent(MotionEvent e) {
+        Matrix invMat = new Matrix();
+        mM.invert(invMat);
+        float[] points = new float[2];
+        points[0] = e.getX();
+        points[1] = e.getY();
+        invMat.mapPoints(points);
+        return mMaskBitmap.getPixel((int)points[0],(int)points[1]);
+    }
+
 
     GestureDetector.SimpleOnGestureListener mSimpleGestureListener = new GestureDetector.SimpleOnGestureListener() {
         @Override
@@ -44,28 +54,13 @@ public abstract class BitmapControllerView extends android.support.v7.widget.App
             if (e2.getPointerCount() == 2) {
                 mM.postTranslate(-distanceX, -distanceY);
                 postInvalidate();
+                return false;
             }
-            return true;
-        }
-
-        @Override
-        public boolean onSingleTapConfirmed (MotionEvent e) {
-            Matrix invMat = new Matrix();
-            mM.invert(invMat);
-            float[] points = new float[2];
-            points[0] = e.getX();
-            points[1] = e.getY();
-            invMat.mapPoints(points);
-            int maskPixel = mMaskBitmap.getPixel((int)points[0],(int)points[1]);
-            int maskPixelR = Color.red(maskPixel);
-            int maskPixelG = Color.green(maskPixel);
-            int maskPixelB = Color.blue(maskPixel);
-            onPixelClick(maskPixelR, maskPixelG, maskPixelB);
-            return true;
+            return false;
         }
     };
 
-    public abstract void onPixelClick(int r, int g, int b);
+    public abstract void onPixelClick(int r, int g, int b, int action);
 
     private BluetoothManager mBTManager = null;
 
@@ -73,15 +68,24 @@ public abstract class BitmapControllerView extends android.support.v7.widget.App
         mBTManager = manager;
     }
 
-    public boolean transmitKey(int keyCode) {
-        return mBTManager.writeString(KeyEvent.keyCodeToString(keyCode));
+    public boolean transmitKey(int keyCode, String action) {
+        return mBTManager.writeString(KeyEvent.keyCodeToString(keyCode)+","+action);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         mScaleDetector.onTouchEvent(ev);
         mGestureDetector.onTouchEvent(ev);
-        return true;
+        if (ev.getActionMasked() == MotionEvent.ACTION_DOWN || ev.getActionMasked() == MotionEvent.ACTION_UP) {
+            int maskPixel = getPixelsFromMotionEvent(ev);
+            int maskPixelR = Color.red(maskPixel);
+            int maskPixelG = Color.green(maskPixel);
+            int maskPixelB = Color.blue(maskPixel);
+            Log.d(TAG, "action: " + ev.getAction());
+            onPixelClick(maskPixelR, maskPixelG, maskPixelB, ev.getActionMasked());
+            return true;
+        }
+        return false;
     }
 
     @Override

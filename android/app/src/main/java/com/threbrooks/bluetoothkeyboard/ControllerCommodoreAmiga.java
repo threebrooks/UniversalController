@@ -12,7 +12,6 @@ public class ControllerCommodoreAmiga extends BitmapControllerView {
         super(context, R.drawable.controller_amiga, R.drawable.controller_amiga_mask);
     }
 
-    public void onPixelClick(int r, int g, int b) {
-
+    public void onPixelClick(int r, int g, int b, int action) {
     }
 }
