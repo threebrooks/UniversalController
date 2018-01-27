@@ -48,18 +48,18 @@ while True:
             if len(data) == 0: continue
             els = str(data).split(",") 
             if els[0] in keyMap:
-                log.write(els[0]+" "+els[1]+"\n")
-                log.flush()
                 if (els[1] == "KEY_DOWN"):
                   press = 1
                 else:
                   press = 0
-                device.emit(keyMap[data], press)
+                log.write(els[0]+" "+els[1]+"\n")
+                log.flush()
+                device.emit(keyMap[els[0]], press)
             else:
                 log.write("Key not defined in map!\n")
                 log.flush()
-    except IOError:
-        log.write("Lost connection\n")
+    except:
+        log.write("Lost connection\n"+str(sys.exc_info()[0]))
         log.flush()
         client_sock.close()
         continue
