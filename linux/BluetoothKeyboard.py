@@ -45,9 +45,10 @@ while True:
               press = 1
             else:
               press = 0
-            key = getattr(uinput, keyString);
-            print(str(data))
-            device.emit(key, press)
+            for keyStringEl in keyString.split("|"):
+              key = getattr(uinput, keyStringEl);
+              print(str(data))
+              device.emit(key, press)
     except:
         print("Lost connection\n"+str(sys.exc_info()[0]))
         client_sock.close()
