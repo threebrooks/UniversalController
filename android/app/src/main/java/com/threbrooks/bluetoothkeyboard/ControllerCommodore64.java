@@ -126,6 +126,7 @@ public class ControllerCommodore64 extends BitmapControllerView {
         KEY_F6,
         KEY_F7,
         KEY_F8,
+        KEY_VICE_EXIT,
         NONE
     }
 
@@ -283,6 +284,7 @@ public class ControllerCommodore64 extends BitmapControllerView {
             if (mod == Modifier.Normal) return C64Key.KEY_F7;
             else if (mod == Modifier.Shift) return C64Key.KEY_F8;
         }
+        else if (b == 100) return C64Key.KEY_VICE_EXIT;
         return C64Key.NONE;
     }
 
@@ -396,6 +398,7 @@ public class ControllerCommodore64 extends BitmapControllerView {
         else if (key == C64Key.KEY_F6) return UInput.KEY_F6;
         else if (key == C64Key.KEY_F7) return UInput.KEY_F7;
         else if (key == C64Key.KEY_F8) return UInput.KEY_F8;
+        else if (key == C64Key.KEY_VICE_EXIT) return UInput.KEY_F12;
         else return "";
     }
 
