@@ -12,7 +12,7 @@ sudo bluetoothctl
 sudo apt-get install python-pip
 sudo apt-get install python-bluetooth
 sudo pip install python-uinput
-add uinput to /etc/modules
+add uinput,evdev to /etc/modules
 sudo cp BluetoothKeyboard.sh /etc/init.d/
 sudo cp BluetoothKeyboard.py /usr/bin/
 sudo update-rc.d  BluetoothKeyboard.py defaults
