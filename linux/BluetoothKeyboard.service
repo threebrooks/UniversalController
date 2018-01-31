@@ -1,0 +1,15 @@
+[Unit]
+Description=Bluetooth keyboard
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python /usr/bin/BluetoothKeyboard.py
+WorkingDirectory=/usr/bin
+StandardOutput=inherit
+StandardInput=inherit
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
+

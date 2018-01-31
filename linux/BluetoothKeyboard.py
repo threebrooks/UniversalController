@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import uinput
+import subprocess
 import sys, inspect
 from bluetooth import *
 
@@ -13,6 +14,8 @@ def getAllKeys():
       out.append(obj)
   return out
 
+command=['modprobe', 'uinput']
+p = subprocess.Popen(command, stdout=subprocess.PIPE)
 
 device = uinput.Device(getAllKeys())
 

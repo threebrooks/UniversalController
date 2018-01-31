@@ -1,4 +1,5 @@
 install:
-	cp BluetoothKeyboard.sh /etc/init.d/
 	cp BluetoothKeyboard.py /usr/bin/
-	update-rc.d  BluetoothKeyboard.sh defaults
+	cp BluetoothKeyboard.service /lib/systemd/system/
+	systemctl enable BluetoothKeyboard.service
+	systemctl start BluetoothKeyboard.service
