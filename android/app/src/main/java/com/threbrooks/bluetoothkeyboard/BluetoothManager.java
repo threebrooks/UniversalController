@@ -102,11 +102,11 @@ public class BluetoothManager {
                     mmSocket.connect();
                 } catch (IOException connectException) {
                     // Unable to connect; close the socket and return.
-                    Log.e(TAG, "Unable to connect", connectException);
+                    //Log.e(TAG, "Unable to connect", connectException);
                     try {
                         mmSocket.close();
                     } catch (IOException closeException) {
-                        Log.e(TAG, "Could not close the client socket", closeException);
+                        //Log.e(TAG, "Could not close the client socket", closeException);
                     }
                     continue;
                 }
