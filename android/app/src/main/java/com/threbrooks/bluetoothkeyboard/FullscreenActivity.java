@@ -98,6 +98,8 @@ public class FullscreenActivity extends AppCompatActivity implements BluetoothMa
                     newView = new ControllerCommodoreAmiga(FullscreenActivity.this);
                 } else if (resId == R.string.controller_snes) {
                     newView = new ControllerSNES(FullscreenActivity.this);
+                }  else if (resId == R.string.controller_mouse) {
+                newView = new ControllerMouse(FullscreenActivity.this);
                 }
                 if (newView != null) {
                     newView.setBluetoothManager(mBluetoothManager);
