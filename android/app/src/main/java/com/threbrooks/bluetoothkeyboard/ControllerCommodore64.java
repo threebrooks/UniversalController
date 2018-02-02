@@ -418,7 +418,7 @@ public class ControllerCommodore64 extends BitmapControllerView {
             Log.d(TAG, "isFunctionKey: "+Boolean.toString(isFunctionKey));
             String keyString = C64KeyToViceCombo(c64Key);
             Log.d(TAG, "keyString: "+keyString);
-            if (!isFunctionKey && !keyString.equals("")) transmitKey(keyString, pressed ? "KEY_DOWN" : "KEY_UP");
+            if (!isFunctionKey && !keyString.equals("")) transmitEvent(UInput.createKeyEvent(keyString, pressed));
 
             if (mMod == Modifier.Normal) {
                 if (c64Key.equals(C64Key.KEY_LEFTSHIFT) || c64Key.equals(C64Key.KEY_RIGHTSHIFT)) {

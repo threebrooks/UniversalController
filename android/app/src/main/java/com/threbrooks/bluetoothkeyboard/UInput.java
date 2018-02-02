@@ -1,10 +1,16 @@
 package com.threbrooks.bluetoothkeyboard;
 
+import android.util.Log;
+
+import org.json.JSONObject;
+
 /**
  * Created by Me on 2018-01-28.
  */
 
 public class UInput {
+
+  static private String TAG = "UInput";
 
   public static String KEY_RESERVED = "KEY_RESERVED";
   public static String KEY_ESC = "KEY_ESC";
@@ -601,4 +607,28 @@ public class UInput {
   public static String ABS_MT_TOOL_X = "ABS_MT_TOOL_X";
   public static String ABS_MT_TOOL_Y = "ABS_MT_TOOL_Y";
   public static String ABS_MAX = "ABS_MAX";
+
+  public static JSONObject createKeyEvent(String keyString, boolean pressed) {
+    JSONObject obj = new JSONObject();
+    try {
+      obj.put("type", "KEY");
+      obj.put("keylist", keyString);
+      obj.put("pressed", Boolean.toString(pressed));
+    } catch (Exception e) {
+      Log.d(TAG,e.getMessage());
+    }
+    return obj;
+  }
+
+  public static JSONObject createMouseEvent(float dx, float dy) {
+    JSONObject obj = new JSONObject();
+    try {
+      obj.put("type", "MOUSE");
+      obj.put("dx", dx);
+      obj.put("dy", dy);
+    } catch (Exception e) {
+      Log.d(TAG,e.getMessage());
+    }
+    return obj;
+  }
 }

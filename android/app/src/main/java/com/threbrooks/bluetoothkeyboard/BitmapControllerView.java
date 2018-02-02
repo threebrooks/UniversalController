@@ -19,7 +19,7 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.ImageView;
 
-public abstract class BitmapControllerView extends android.support.v7.widget.AppCompatImageView {
+public abstract class BitmapControllerView extends ControllerBaseView {
 
     ScaleGestureDetector mScaleDetector = null;
     GestureDetector mGestureDetector = null;
@@ -57,7 +57,6 @@ public abstract class BitmapControllerView extends android.support.v7.widget.App
         }
     }
 
-
     GestureDetector.SimpleOnGestureListener mSimpleGestureListener = new GestureDetector.SimpleOnGestureListener() {
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
@@ -71,16 +70,6 @@ public abstract class BitmapControllerView extends android.support.v7.widget.App
     };
 
     public abstract boolean onPixelClick(int r, int g, int b, boolean pressed);
-
-    private BluetoothManager mBTManager = null;
-
-    public void setBluetoothManager(BluetoothManager manager) {
-        mBTManager = manager;
-    }
-
-    public void transmitKey(String key, String action) {
-        mBTManager.writeString(key+","+action);
-    }
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {

@@ -390,7 +390,7 @@ public class ControllerCommodoreAmiga extends BitmapControllerView {
             //Log.d(TAG, "isFunctionKey: "+Boolean.toString(isFunctionKey));
             String keyString = AmigaKeyToViceCombo(amigaKey);
             //Log.d(TAG, "keyString: "+keyString);
-            if (!isFunctionKey && !keyString.equals("")) transmitKey(keyString, pressed ? "KEY_DOWN" : "KEY_UP");
+            if (!isFunctionKey && !keyString.equals("")) transmitEvent(UInput.createKeyEvent(keyString, pressed));
 
             if (mMod == Modifier.Normal) {
                 if (amigaKey.equals(AmigaKey.KEY_LEFTSHIFT) || amigaKey.equals(AmigaKey.KEY_RIGHTSHIFT)) {

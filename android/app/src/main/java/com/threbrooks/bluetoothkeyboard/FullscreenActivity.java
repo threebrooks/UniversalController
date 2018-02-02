@@ -90,8 +90,9 @@ public class FullscreenActivity extends AppCompatActivity implements BluetoothMa
         actionBarDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                BitmapControllerView newView = null;
+                ControllerBaseView newView = null;
                 int resId = res.getIdentifier( getPackageName()+":string/"+controllerListStringRes[i], null, null);
+                LinearLayout mainLL = (LinearLayout) findViewById(R.id.MainLinearLayout);
                 if (resId == R.string.controller_c64) {
                     newView = new ControllerCommodore64(FullscreenActivity.this);
                 } else if (resId == R.string.controller_amiga) {
@@ -99,7 +100,7 @@ public class FullscreenActivity extends AppCompatActivity implements BluetoothMa
                 } else if (resId == R.string.controller_snes) {
                     newView = new ControllerSNES(FullscreenActivity.this);
                 }  else if (resId == R.string.controller_mouse) {
-                newView = new ControllerMouse(FullscreenActivity.this);
+                    newView = new ControllerMouse(FullscreenActivity.this, mainLL);
                 }
                 if (newView != null) {
                     newView.setBluetoothManager(mBluetoothManager);
@@ -107,7 +108,6 @@ public class FullscreenActivity extends AppCompatActivity implements BluetoothMa
                             LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.MATCH_PARENT));
                 }
-                LinearLayout mainLL = (LinearLayout) findViewById(R.id.MainLinearLayout);
                 int childCount = mainLL.getChildCount();
                 if (childCount > 1) {
                     mainLL.removeViewAt(childCount - 1);
