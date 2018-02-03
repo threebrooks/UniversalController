@@ -4,6 +4,7 @@ import uinput
 import subprocess
 import sys, inspect
 import json
+import subprocess
 from bluetooth import *
 
 uuid = "94f39d29-7d6d-437d-973b-fba39e49d4ee"
@@ -15,9 +16,6 @@ def getAllKeys():
       out.append(obj)
   return out
 
-command=['modprobe', 'uinput']
-p = subprocess.Popen(command, stdout=subprocess.PIPE)
-
 device = uinput.Device(getAllKeys())
 
 server_sock=BluetoothSocket( RFCOMM )
@@ -26,19 +24,25 @@ server_sock.listen(1)
 
 port = server_sock.getsockname()[1]
 
-advertise_service( server_sock, "BluetoothKeyboard",
+advertise_service( server_sock, "RetroPieController",
         service_id = uuid,
         service_classes = [ uuid, SERIAL_PORT_CLASS ],
         profiles = [ SERIAL_PORT_PROFILE ], 
         #                   protocols = [ OBEX_UUID ] 
         )
 
+client_sock = None
+client_info = None
 while True:
-    print("Waiting for connection")
-    client_sock, client_info = server_sock.accept()
-    print("Accepted connection from "+ str(client_info))
-    
     try:
+        print("Making discoverable")
+        ps = subprocess.Popen(('bluetoothctl'), stdin=subprocess.PIPE)
+        ps.communicate('power on\npairable on\ndiscoverable on\nagent NoInputNoOutput\ndefault-agent\n\nexit\n')
+        print("Waiting for connection")
+        server_sock.settimeout(60)
+        client_sock, client_info = server_sock.accept()
+        print("Accepted connection from "+ str(client_info))
+    
         while True:
             data = client_sock.recv(1024)
             if len(data) == 0: continue
@@ -63,7 +67,7 @@ while True:
 
     except:
         print("Lost connection\n"+str(sys.exc_info()[0]))
-        client_sock.close()
+        if (client_sock != None): client_sock.close()
         continue
     
 server_sock.close()
