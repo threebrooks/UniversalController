@@ -17,6 +17,7 @@ apt-get -y install python-pip python-bluetooth
 yes | pip install python-uinput
 
 if grep -q "uinput" /etc/modules; then
+   echo
 else
    echo "uinput" >> /etc/modules
    echo "evdev" >> /etc/modules
