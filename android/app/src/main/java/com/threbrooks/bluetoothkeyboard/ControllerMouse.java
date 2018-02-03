@@ -66,7 +66,7 @@ public class ControllerMouse extends ControllerBaseView {
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
             if (e2.getPointerCount() == 1) {
-                transmitEvent(UInput.createMouseEvent(distanceX, distanceY));
+                transmitEvent(UInput.createMouseEvent(-distanceX, -distanceY));
                 return false;
             }
             return false;
