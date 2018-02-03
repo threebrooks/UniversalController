@@ -3,6 +3,7 @@
 import uinput
 import subprocess
 import sys, inspect
+import json
 from bluetooth import *
 
 uuid = "94f39d29-7d6d-437d-973b-fba39e49d4ee"
@@ -41,17 +42,25 @@ while True:
         while True:
             data = client_sock.recv(1024)
             if len(data) == 0: continue
-            keysPressedArray = str(data).split(",") 
-            keyString = keysPressedArray[0]
-            pressedString = keysPressedArray[1]
-            if (pressedString == "KEY_DOWN"):
-              press = 1
-            else:
-              press = 0
-            for keyStringEl in keyString.split("|"):
-              key = getattr(uinput, keyStringEl);
-              print(str(data))
-              device.emit(key, press)
+            for msgString in str(data).split("@@@"):
+              if (msgString == ""): continue
+              #print msgString
+              js = json.loads(msgString)
+              type = js['type']
+              if (type == "KEY"):
+                if (js['pressed'] == "true"):
+                  press = 1
+                else:
+                  press = 0
+                for keyStringEl in js['keylist'].split("|"):
+                  key = getattr(uinput, keyStringEl);
+                  #print "Emitting "+keyStringEl
+                  device.emit(key, press)
+              elif (type == "MOUSE"):
+                #print "Emitting mouse move"
+                device.emit(uinput.REL_X, int(js['dx']), syn=False)
+                device.emit(uinput.REL_Y, int(js['dy']))
+
     except:
         print("Lost connection\n"+str(sys.exc_info()[0]))
         client_sock.close()
