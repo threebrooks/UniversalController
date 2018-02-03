@@ -2,7 +2,7 @@
 set -e
 
 if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run as root. Run 'sudo install.sh'" 
+   echo "This script must be run as root. Run 'sudo ./install.sh'" 
    exit 1
 fi
 
