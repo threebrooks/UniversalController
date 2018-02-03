@@ -68,7 +68,7 @@ public class BluetoothManager {
     }
 
     public void writeString(String string) {
-        if (mConnectThread != null) mConnectThread.write(string.getBytes());
+        if (mConnectThread != null) mConnectThread.write((string+"@@@").getBytes());
     }
 
 

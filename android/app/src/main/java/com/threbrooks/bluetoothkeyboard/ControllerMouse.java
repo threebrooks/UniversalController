@@ -34,6 +34,8 @@ public class ControllerMouse extends ControllerBaseView {
         mLeftButton.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                int action = motionEvent.getActionMasked();
+                if (!(action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_UP)) return false;
                 transmitEvent(UInput.createKeyEvent(UInput.BTN_LEFT, motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN));
                 return false;
             }
@@ -42,6 +44,8 @@ public class ControllerMouse extends ControllerBaseView {
         mRightButton.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                int action = motionEvent.getActionMasked();
+                if (!(action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_UP)) return false;
                 transmitEvent(UInput.createKeyEvent(UInput.BTN_RIGHT, motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN));
                 return false;
             }
