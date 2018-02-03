@@ -7,25 +7,34 @@
     android:orientation="vertical"
     tools:context="com.threbrooks.bluetoothkeyboard.FullscreenActivity"
     android:background="#000000">
-    <View
+
+    <ImageView
         android:id="@+id/controller_mouse_touch"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.9"/>
+        android:layout_weight="0.85"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/ic_launcher_background" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.1"
+        android:layout_weight="0.15"
         android:orientation="horizontal">
+
         <Button
-            android:id="@+id/controller_left_button"
+            android:id="@+id/controller_mouse_left_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"/>
+            android:layout_weight="0.5"
+            android:background="#999999"
+            android:text="left" />
+
         <Button
-            android:id="@+id/controller_right_button"
+            android:id="@+id/controller_mouse_right_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"/>
+            android:layout_weight="0.5"
+            android:background="#999999"
+            android:text="right" />
     </LinearLayout>
 </LinearLayout>

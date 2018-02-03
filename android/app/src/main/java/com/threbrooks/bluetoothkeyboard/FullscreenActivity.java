@@ -114,6 +114,7 @@ public class FullscreenActivity extends AppCompatActivity implements BluetoothMa
                 }
                 mainLL.addView(newView);
                 mainLL.requestLayout();
+                mainLL.postInvalidate();
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {

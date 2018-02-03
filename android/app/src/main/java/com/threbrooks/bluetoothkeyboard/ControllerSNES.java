@@ -33,7 +33,7 @@ public class ControllerSNES extends BitmapControllerView {
 
     public boolean onPixelClick(int r, int g, int b, boolean pressed) {
         if (r == 255 & g == 255) {
-            transmitKey(blueToKeyCode(b), pressed ? "KEY_DOWN" : "KEY_UP");
+            transmitEvent(UInput.createKeyEvent(blueToKeyCode(b), pressed));
             return true;
         }
         return false;

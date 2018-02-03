@@ -1,24 +1,54 @@
 package com.threbrooks.bluetoothkeyboard;
 
 import android.content.Context;
+import android.provider.Contacts;
+import android.util.Log;
 import android.view.GestureDetector;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 public class ControllerMouse extends ControllerBaseView {
 
-    static String TAG = "BitmapControllerView";
+    static String TAG = "ControllerMouse";
     GestureDetector mGestureDetector = null;
     Button mLeftButton = null;
+    Button mRightButton = null;
+    LinearLayout mLayout = null;
 
     public ControllerMouse(Context context, ViewGroup parent) {
         super(context);
-        inflate(context, R.layout.controller_mouse, parent);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mLayout = (LinearLayout)inflater.inflate(R.layout.controller_mouse, null, true);
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        mLayout.setLayoutParams(layoutParams);
+        addView(mLayout);
+
         mGestureDetector = new GestureDetector(context ,mSimpleGestureListener);
+
+        mLeftButton = (Button)findViewById(R.id.controller_mouse_left_button);
+        mLeftButton.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                transmitEvent(UInput.createKeyEvent(UInput.BTN_LEFT, motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN));
+                return false;
+            }
+        });
+        mRightButton = (Button)findViewById(R.id.controller_mouse_right_button);
+        mRightButton.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                transmitEvent(UInput.createKeyEvent(UInput.BTN_RIGHT, motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN));
+                return false;
+            }
+        });
     }
 
-    /*
+
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         mGestureDetector.onTouchEvent(ev);
@@ -26,7 +56,7 @@ public class ControllerMouse extends ControllerBaseView {
             return true;
         }
         return false;
-    } */
+    }
 
     GestureDetector.SimpleOnGestureListener mSimpleGestureListener = new GestureDetector.SimpleOnGestureListener() {
         @Override
