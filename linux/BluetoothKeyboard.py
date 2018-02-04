@@ -7,6 +7,8 @@ import json
 import subprocess
 from bluetooth import *
 
+APP_VERSION = "1.0.0"
+
 uuid = "94f39d29-7d6d-437d-973b-fba39e49d4ee"
 
 def getAllKeys():
@@ -42,6 +44,8 @@ while True:
         server_sock.settimeout(60)
         client_sock, client_info = server_sock.accept()
         print("Accepted connection from "+ str(client_info))
+
+        client_sock.send(APP_VERSION)
     
         while True:
             data = client_sock.recv(1024)
@@ -57,6 +61,7 @@ while True:
                 else:
                   press = 0
                 for keyStringEl in js['keylist'].split("|"):
+                  if (keyStringEl == "HEARTBEAT"): continue
                   key = getattr(uinput, keyStringEl);
                   #print "Emitting "+keyStringEl
                   device.emit(key, press)
