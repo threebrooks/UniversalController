@@ -74,9 +74,11 @@ public class FullscreenActivity extends AppCompatActivity implements BluetoothMa
         MenuItem bluetoothIconMenuItem = menu.findItem(R.id.action_bar_bluetooth_icon);
         mActionMenuBluetoothIV = (ImageView) bluetoothIconMenuItem.getActionView();
         mActionMenuBluetoothIV.setBackgroundResource(R.drawable.bluetooth_disconnected);
-        //int margins = 50;
-        //mActionMenuBluetoothIV.setPadding(margins, margins, margins, margins);
+        int margins = 150;
+        mActionMenuBluetoothIV.setPadding(margins, margins, margins, margins);
         mActionMenuBluetoothIV.setAdjustViewBounds(true);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        mActionMenuBluetoothIV.setLayoutParams(layoutParams);
 
         // --------------- bluetooth list ---------------
         MenuItem bluetoothListMenuItem = menu.findItem(R.id.action_bar_bluetooth_list);

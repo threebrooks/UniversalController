@@ -7,13 +7,13 @@
         app:actionViewClass="android.widget.Spinner"
         app:showAsAction="always" />
     <item
-        android:id="@+id/action_bar_bluetooth_icon"
-        android:title="Bluetooth connnection"
-        app:actionViewClass="android.widget.ImageView"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/action_bar_bluetooth_list"
         android:title="Bluetooth icon"
         app:actionViewClass="android.widget.Spinner"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_bar_bluetooth_icon"
+        android:title="Bluetooth connnection"
+        app:actionViewClass="android.widget.ImageView"
         app:showAsAction="always" />
 </menu>
