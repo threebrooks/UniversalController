@@ -20,6 +20,8 @@ def getAllKeys():
 
 device = uinput.Device(getAllKeys())
 
+subprocess.call(['systemctl','restart','bluetooth'])
+
 server_sock=BluetoothSocket( RFCOMM )
 server_sock.bind(("",PORT_ANY))
 server_sock.listen(1)
