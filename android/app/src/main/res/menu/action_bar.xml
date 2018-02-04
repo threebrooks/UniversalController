@@ -2,17 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_bar_dropdown"
+        android:id="@+id/action_bar_controller"
         android:title="ActionBar Spinner"
         app:actionViewClass="android.widget.Spinner"
         app:showAsAction="always" />
     <item
-        android:id="@+id/action_bar_bluetooth"
-        android:title="Bluetooth icon"
+        android:id="@+id/action_bar_bluetooth_icon"
+        android:title="Bluetooth connnection"
         app:actionViewClass="android.widget.ImageView"
         app:showAsAction="always" />
-    <!-- Settings, should always be in the overflow -->
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_bar_bluetooth_list"
+        android:title="Bluetooth icon"
+        app:actionViewClass="android.widget.Spinner"
+        app:showAsAction="always" />
 </menu>

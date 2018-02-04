@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
@@ -16,6 +17,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -27,6 +29,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,6 +48,7 @@ public class FullscreenActivity extends AppCompatActivity implements BluetoothMa
 
     BluetoothManager mBluetoothManager = null;
     ImageView mActionMenuBluetoothIV = null;
+    ArrayAdapter<BluetoothDeviceDisplay> mBluetoothArrayAdapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,30 +68,52 @@ public class FullscreenActivity extends AppCompatActivity implements BluetoothMa
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.action_bar, menu);
+        final Resources res = getResources();
 
-        MenuItem dropDownMenuItem = menu.findItem(R.id.action_bar_dropdown);
-        final Spinner actionBarDropDown = (Spinner) dropDownMenuItem.getActionView();
-
-        MenuItem bluetoothMenuItem = menu.findItem(R.id.action_bar_bluetooth);
-        mActionMenuBluetoothIV = (ImageView) bluetoothMenuItem.getActionView();
-        mActionMenuBluetoothIV.setImageResource(R.drawable.bluetooth_disconnected);
-        int margins = 50;
-        mActionMenuBluetoothIV.setPadding(margins, margins, margins, margins);
+        // --------------- bluetooth icon ---------------
+        MenuItem bluetoothIconMenuItem = menu.findItem(R.id.action_bar_bluetooth_icon);
+        mActionMenuBluetoothIV = (ImageView) bluetoothIconMenuItem.getActionView();
+        mActionMenuBluetoothIV.setBackgroundResource(R.drawable.bluetooth_disconnected);
+        //int margins = 50;
+        //mActionMenuBluetoothIV.setPadding(margins, margins, margins, margins);
         mActionMenuBluetoothIV.setAdjustViewBounds(true);
 
-        final Resources res = getResources();
+        // --------------- bluetooth list ---------------
+        MenuItem bluetoothListMenuItem = menu.findItem(R.id.action_bar_bluetooth_list);
+        Spinner actionMenuBluetoothSpinner = (Spinner) bluetoothListMenuItem.getActionView();
+        ArrayList<BluetoothDeviceDisplay> bluetoothListDisplay = new ArrayList<BluetoothDeviceDisplay>();
+        mBluetoothArrayAdapter = new ArrayAdapter<BluetoothDeviceDisplay>
+                (this, android.R.layout.simple_spinner_item, bluetoothListDisplay);
+        mBluetoothArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        actionMenuBluetoothSpinner.setAdapter(mBluetoothArrayAdapter);
+
+        actionMenuBluetoothSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
+                mBluetoothManager.setBluetoothDevice(((BluetoothDeviceDisplay)adapterView.getItemAtPosition(pos)).mDevice);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+            });
+
+        // --------------- Controller list ------------------
+        MenuItem controllerMenuItem = menu.findItem(R.id.action_bar_controller);
+        final Spinner actionBarControllerSpinner = (Spinner) controllerMenuItem.getActionView();
         final String[] controllerListStringRes = res.getStringArray(R.array.controller_init_list);
         ArrayList<String> controllerListDisplay = new ArrayList<String>();
         for(String stringRes : controllerListStringRes) {
             int resId = res.getIdentifier( getPackageName()+":string/"+stringRes, null, null);
             controllerListDisplay.add(getResources().getString(resId));
         }
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>
+        ArrayAdapter<String> controllerArrayAdapter = new ArrayAdapter<String>
                 (this, android.R.layout.simple_spinner_item, controllerListDisplay);
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        controllerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        actionBarDropDown.setAdapter(spinnerArrayAdapter);
-        actionBarDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        actionBarControllerSpinner.setAdapter(controllerArrayAdapter);
+        actionBarControllerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 ControllerBaseView newView = null;
@@ -124,11 +150,19 @@ public class FullscreenActivity extends AppCompatActivity implements BluetoothMa
         return true;
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu (Menu menu) {
+        mBluetoothArrayAdapter.clear();
+        mBluetoothArrayAdapter.addAll(mBluetoothManager.getPairedDevices());
+        return true;
+    }
+
     public void bluetoothConnected() {
-        if (mActionMenuBluetoothIV != null) mActionMenuBluetoothIV.setImageResource(R.drawable.bluetooth_connected);
+        if (mActionMenuBluetoothIV != null) mActionMenuBluetoothIV.setBackgroundResource(R.drawable.bluetooth_connected);
     }
 
     public void bluetoothDisconnected() {
-        if (mActionMenuBluetoothIV != null) mActionMenuBluetoothIV.setImageResource(R.drawable.bluetooth_disconnected);
+        if (mActionMenuBluetoothIV != null) mActionMenuBluetoothIV.setBackgroundResource(R.drawable.bluetooth_disconnected);
     }
+
 }

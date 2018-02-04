@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.Set;
 import java.util.UUID;
@@ -46,20 +47,16 @@ public class BluetoothManager {
             mainAct.startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
 
-        Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
+        mConnectThread = new ConnectThread();
+        mConnectThread.start();
+    }
 
-        if (pairedDevices.size() > 0) {
-            // There are paired devices. Get the name and address of each paired device.
-            for (BluetoothDevice device : pairedDevices) {
-                String deviceName = device.getName();
-                String deviceHardwareAddress = device.getAddress(); // MAC address
-                if (deviceName.equals("keyboardpi")) {
-                    Log.d(TAG, "device: " + deviceName);
-                    mConnectThread = new ConnectThread(device);
-                    mConnectThread.start();
-                }
-            }
+    public ArrayList<BluetoothDeviceDisplay> getPairedDevices() {
+        ArrayList<BluetoothDeviceDisplay> list = new ArrayList<BluetoothDeviceDisplay>();
+        for(BluetoothDevice device : mBluetoothAdapter.getBondedDevices()) {
+            list.add(new BluetoothDeviceDisplay(device));
         }
+        return list;
     }
 
     public interface BluetoothConnectorInterface {
@@ -71,25 +68,43 @@ public class BluetoothManager {
         if (mConnectThread != null) mConnectThread.write((string+"@@@").getBytes());
     }
 
+    public void setBluetoothDevice(BluetoothDevice device) {
+        if (mConnectThread != null) mConnectThread.setBluetoothDevice(device);
+    }
+
 
     private class ConnectThread extends Thread {
-        private BluetoothSocket mmSocket;
-        private final BluetoothDevice mmDevice;
+        private BluetoothSocket mSocket;
+        private BluetoothDevice mDevice;
         private boolean mStopRunning = false;
         private ArrayDeque<byte[]> mQueue = new ArrayDeque<byte[]>();
+        private Object mWaitMutex = new Object();
 
-        public ConnectThread(BluetoothDevice device) {
-            mmDevice = device;
+        public ConnectThread() {
+            mDevice = null;
+        }
+
+        public void setBluetoothDevice(BluetoothDevice device) {
+            mDevice = device;
+            synchronized (mWaitMutex) {
+                mWaitMutex.notifyAll();
+            }
         }
 
         public void run() {
             while (!mStopRunning) {
                 mIntf.bluetoothDisconnected();
+
                 try {
+                    while(mDevice == null) {
+                        synchronized (mWaitMutex) {
+                            mWaitMutex.wait();
+                        }
+                    }
                     // Get a BluetoothSocket to connect with the given BluetoothDevice.
                     // MY_UUID is the app's UUID string, also used in the server code.
-                    mmSocket = mmDevice.createRfcommSocketToServiceRecord(MY_UUID);
-                } catch (IOException e) {
+                    mSocket = mDevice.createRfcommSocketToServiceRecord(MY_UUID);
+                } catch (Exception e) {
                     Log.e(TAG, "Socket's create() method failed", e);
                 }
 
@@ -99,12 +114,12 @@ public class BluetoothManager {
                 try {
                     // Connect to the remote device through the socket. This call blocks
                     // until it succeeds or throws an exception.
-                    mmSocket.connect();
+                    mSocket.connect();
                 } catch (IOException connectException) {
                     // Unable to connect; close the socket and return.
                     //Log.e(TAG, "Unable to connect", connectException);
                     try {
-                        mmSocket.close();
+                        mSocket.close();
                     } catch (IOException closeException) {
                         //Log.e(TAG, "Could not close the client socket", closeException);
                     }
@@ -117,14 +132,14 @@ public class BluetoothManager {
                 // Get the input and output streams; using temp objects because
                 // member streams are final.
                 try {
-                    inStream = mmSocket.getInputStream();
+                    inStream = mSocket.getInputStream();
                     Log.d(TAG, "Got input stream");
                 } catch (IOException e) {
                     Log.e(TAG, "Error occurred when creating input stream", e);
                     continue;
                 }
                 try {
-                    outStream = mmSocket.getOutputStream();
+                    outStream = mSocket.getOutputStream();
                     Log.d(TAG, "Got output stream");
                 } catch (IOException e) {
                     Log.e(TAG, "Error occurred when creating output stream", e);
@@ -158,7 +173,7 @@ public class BluetoothManager {
                 synchronized (mQueue) {
                     mQueue.clear();
                 }
-                mmSocket.close();
+                mSocket.close();
                 join();
             } catch (Exception e) {
                 Log.e(TAG, "Could not close the client socket", e);
