@@ -5,11 +5,14 @@ import subprocess
 import sys, inspect
 import json
 import subprocess
+import time
 from bluetooth import *
 
 APP_VERSION = "1.0.0"
 
 uuid = "94f39d29-7d6d-437d-973b-fba39e49d4ee"
+
+time.sleep(5)
 
 def getAllKeys():
   out = []
