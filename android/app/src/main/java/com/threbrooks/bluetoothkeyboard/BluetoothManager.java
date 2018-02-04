@@ -32,6 +32,7 @@ public class BluetoothManager {
     UUID MY_UUID = UUID.fromString("94f39d29-7d6d-437d-973b-fba39e49d4ee");
 
     ConnectThread mConnectThread = null;
+    HeartbeatThread mHeartbeat = null;
     BluetoothConnectorInterface mIntf = null;
 
     public BluetoothManager(Activity mainAct, BluetoothConnectorInterface intf) {
@@ -49,6 +50,9 @@ public class BluetoothManager {
 
         mConnectThread = new ConnectThread();
         mConnectThread.start();
+
+        mHeartbeat = new HeartbeatThread();
+        mHeartbeat.start();
     }
 
     public ArrayList<BluetoothDeviceDisplay> getPairedDevices() {
@@ -60,7 +64,7 @@ public class BluetoothManager {
     }
 
     public interface BluetoothConnectorInterface {
-        public void bluetoothConnected();
+        public void bluetoothConnected(String version);
         public void bluetoothDisconnected();
     }
 
@@ -70,6 +74,15 @@ public class BluetoothManager {
 
     public void setBluetoothDevice(BluetoothDevice device) {
         if (mConnectThread != null) mConnectThread.setBluetoothDevice(device);
+    }
+
+    private class HeartbeatThread extends Thread {
+        public void run() {
+            while(true) {
+                try {Thread.sleep(1000);} catch (Exception e) {}
+                writeString(UInput.createKeyEvent("HEARTBEAT",true).toString());
+            }
+        }
     }
 
 
@@ -116,13 +129,7 @@ public class BluetoothManager {
                     // until it succeeds or throws an exception.
                     mSocket.connect();
                 } catch (IOException connectException) {
-                    // Unable to connect; close the socket and return.
-                    //Log.e(TAG, "Unable to connect", connectException);
-                    try {
-                        mSocket.close();
-                    } catch (IOException closeException) {
-                        //Log.e(TAG, "Could not close the client socket", closeException);
-                    }
+                    try {Thread.sleep(1000);} catch (Exception e) {}
                     continue;
                 }
 
@@ -146,7 +153,15 @@ public class BluetoothManager {
                     continue;
                 }
 
-                mIntf.bluetoothConnected();
+                // Get the version
+                byte[] versionBytes = new byte[1024];
+                try {
+                    int bytesRead = inStream.read(versionBytes);
+                    mIntf.bluetoothConnected(new String(versionBytes, 0, bytesRead, "UTF-8"));
+                } catch (IOException e) {
+                    Log.e(TAG, "Error occurred when reading version", e);
+                    continue;
+                }
 
                 while(true) {
                     try {

@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
@@ -14,6 +15,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -45,6 +47,7 @@ import java.util.UUID;
 public class FullscreenActivity extends AppCompatActivity implements BluetoothManager.BluetoothConnectorInterface {
 
     String TAG = "BluetoothKeyboard";
+    String APP_VERSION="1.0.0";
 
     BluetoothManager mBluetoothManager = null;
     ImageView mActionMenuBluetoothIV = null;
@@ -61,6 +64,8 @@ public class FullscreenActivity extends AppCompatActivity implements BluetoothMa
         Toolbar myToolbar = (Toolbar) findViewById(R.id.action_bar);
         setSupportActionBar(myToolbar);
 
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         mBluetoothManager= new BluetoothManager(this, this);
     }
 
@@ -74,11 +79,7 @@ public class FullscreenActivity extends AppCompatActivity implements BluetoothMa
         MenuItem bluetoothIconMenuItem = menu.findItem(R.id.action_bar_bluetooth_icon);
         mActionMenuBluetoothIV = (ImageView) bluetoothIconMenuItem.getActionView();
         mActionMenuBluetoothIV.setBackgroundResource(R.drawable.bluetooth_disconnected);
-        int margins = 150;
-        mActionMenuBluetoothIV.setPadding(margins, margins, margins, margins);
-        mActionMenuBluetoothIV.setAdjustViewBounds(true);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        mActionMenuBluetoothIV.setLayoutParams(layoutParams);
+        mActionMenuBluetoothIV.setLayoutParams(new LinearLayout.LayoutParams( (int)(0.5*getSupportActionBar().getHeight()), (int)(0.5*getSupportActionBar().getHeight())));
 
         // --------------- bluetooth list ---------------
         MenuItem bluetoothListMenuItem = menu.findItem(R.id.action_bar_bluetooth_list);
@@ -159,7 +160,22 @@ public class FullscreenActivity extends AppCompatActivity implements BluetoothMa
         return true;
     }
 
-    public void bluetoothConnected() {
+    public void bluetoothConnected(final String version) {
+        if (!version.equals(APP_VERSION)) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(FullscreenActivity.this);
+                    builder.setMessage("The application version ("+APP_VERSION+") does not match the server Python script's version ("+version+"). You will probably have to update the Python script").setTitle("Version mismatch");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            FullscreenActivity.this.finish();
+                        }
+                    });
+                    builder.create().show();
+                }
+            });
+        }
         if (mActionMenuBluetoothIV != null) mActionMenuBluetoothIV.setBackgroundResource(R.drawable.bluetooth_connected);
     }
 
