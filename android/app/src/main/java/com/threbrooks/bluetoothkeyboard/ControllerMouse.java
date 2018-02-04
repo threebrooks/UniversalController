@@ -66,7 +66,9 @@ public class ControllerMouse extends ControllerBaseView {
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
             if (e2.getPointerCount() == 1) {
-                transmitEvent(UInput.createMouseEvent(-distanceX, -distanceY));
+                // 720x540 : Amiga resolution
+                float compFac = Math.max(720.0f/getWidth(),540.0f/getHeight());
+                transmitEvent(UInput.createMouseEvent(-compFac*distanceX, -compFac*distanceY));
                 return false;
             }
             return false;
