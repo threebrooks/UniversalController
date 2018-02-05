@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BluetoothKeyboard</string>
+    <string name="app_name">Universal Controller</string>
     <string name="action_settings">action settings</string>
 
     <string name="controller_c64">Commodore 64</string>
