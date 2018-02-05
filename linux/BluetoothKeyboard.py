@@ -40,6 +40,11 @@ advertise_service( server_sock, "RetroPieController",
 
 client_sock = None
 client_info = None
+
+xAccum = 0
+yAccum = 0
+lastXInt = 0
+lastYInt = 0
 while True:
     try:
         print("Making discoverable")
@@ -71,10 +76,21 @@ while True:
                   #print "Emitting "+keyStringEl
                   device.emit(key, press)
               elif (type == "MOUSE"):
-                #print "Emitting mouse move"
-                device.emit(uinput.REL_X, int(js['dx']), syn=False)
-                device.emit(uinput.REL_Y, int(js['dy']))
-
+                xAccum += js['dx'] 
+                yAccum += js['dy'] 
+                xError = xAccum-lastXInt
+                yError = yAccum-lastYInt
+                if (abs(xError) > 0.5 or abs(yError) > 0.5):
+                  newX = int(round(xAccum))
+                  newY = int(round(yAccum))
+                  deltaX = newX-lastXInt
+                  deltaY = newY-lastYInt
+                  if (deltaX != 0 or deltaY != 0):
+                    print "Emitting mouse move "+str(deltaX)+","+str(deltaY)
+                    device.emit(uinput.REL_X, newX-lastXInt, syn=False)
+                    device.emit(uinput.REL_Y, newY-lastYInt)
+                    lastXInt = newX
+                    lastYInt = newY
     except:
         print("Lost connection\n"+str(sys.exc_info()[0]))
         if (client_sock != None): client_sock.close()
