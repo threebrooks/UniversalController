@@ -23,6 +23,7 @@ public class ControllerCommodoreAmiga extends BitmapControllerView {
         KEY_F8,
         KEY_F9,
         KEY_F10,
+        KEY_EXIT_UAE,
 
         KEY_BACKQUOTE,
         KEY_TILDE,
@@ -135,6 +136,7 @@ public class ControllerCommodoreAmiga extends BitmapControllerView {
         else if (b == 8) return AmigaKey.KEY_F8;
         else if (b == 9) return AmigaKey.KEY_F9;
         else if (b == 10) return AmigaKey.KEY_F10;
+        else if (b == 123) return AmigaKey.KEY_EXIT_UAE;
         else if (b == 11) {
             if (mod == Modifier.Normal) return AmigaKey.KEY_BACKQUOTE;
             else if (mod == Modifier.Shift) return AmigaKey.KEY_TILDE;
@@ -279,6 +281,7 @@ public class ControllerCommodoreAmiga extends BitmapControllerView {
         else if (key == AmigaKey.KEY_F6) return UInput.KEY_F6;
         else if (key == AmigaKey.KEY_F7) return UInput.KEY_F7;
         else if (key == AmigaKey.KEY_F8) return UInput.KEY_F8;
+        else if (key == AmigaKey.KEY_EXIT_UAE) return UInput.KEY_F12;
 
         if (key == AmigaKey.KEY_BACKQUOTE) return UInput.KEY_GRAVE;
         if (key == AmigaKey.KEY_TILDE) return UInput.KEY_LEFTSHIFT + "|" + UInput.KEY_GRAVE;
