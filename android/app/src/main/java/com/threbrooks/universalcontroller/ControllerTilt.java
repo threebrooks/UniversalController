@@ -78,13 +78,11 @@ public class ControllerTilt extends ControllerBaseView implements SensorEventLis
     float[] mCurrAccelVec = null;
     float[] mCurrMagnVec = null;
 
-    enum State {
-        Left,
-        Center,
-        Right
-    }
+    int mPrevX = 180;
+    int mPrevY = 180;
 
-    State mState = State.Center;
+    float leftRightCalib = 0.0f;
+    float forwardBackwardCalib = -(float)(Math.PI/4.0f);
 
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -102,36 +100,25 @@ public class ControllerTilt extends ControllerBaseView implements SensorEventLis
             final float[] orientationAngles = new float[3];
             mSensorManager.getOrientation(rotationMatrix, orientationAngles);
 
-            float angle = orientationAngles[1];
+            float leftRightAngle = orientationAngles[1]-leftRightCalib;
+            float forwardBackwardAngle = orientationAngles[2]-forwardBackwardCalib;
 
-            //Log.d(TAG, ""+angle);
+            //Log.d(TAG, ""+orientationAngles[0]+" "+orientationAngles[1]+" "+orientationAngles[2]);
 
-            State newState = State.Center;
-            if (angle > Math.PI/8.0) newState = State.Right;
-            if (angle < -Math.PI/8.0) newState = State.Left;
+            int x = 180;
+            if (leftRightAngle < Math.PI/8.0) x = 255;
+            else if (leftRightAngle > -Math.PI/8.0) x = 0;
 
-            if(newState == State.Right) {
-                if (mState == State.Center) {
-                    transmitEvent(UInput.createKeyEvent(UInput.KEY_RIGHT, true));
-                } else if (mState == State.Left) {
-                    transmitEvent(UInput.createKeyEvent(UInput.KEY_LEFT, false));
-                    transmitEvent(UInput.createKeyEvent(UInput.KEY_RIGHT, true));
-                }
-            } else if(newState == State.Center) {
-                if (mState == State.Left) {
-                    transmitEvent(UInput.createKeyEvent(UInput.KEY_LEFT, false));
-                } else if (mState == State.Right) {
-                    transmitEvent(UInput.createKeyEvent(UInput.KEY_RIGHT, false));
-                }
-            } else if(newState == State.Left) {
-                if (mState == State.Center) {
-                    transmitEvent(UInput.createKeyEvent(UInput.KEY_LEFT, true));
-                } else if (mState == State.Right) {
-                    transmitEvent(UInput.createKeyEvent(UInput.KEY_RIGHT, false));
-                    transmitEvent(UInput.createKeyEvent(UInput.KEY_LEFT, true));
-                }
+            int y = 180;
+            if (forwardBackwardAngle > Math.PI/8.0) y = 255;
+            else if (forwardBackwardAngle < -Math.PI/8.0) y = 0;
+
+            if (x != mPrevX || y != mPrevY) {
+                transmitEvent(UInput.createMouseEvent(x, y, true));
+                Log.d(TAG, "Angle: "+x+" "+y);
             }
-            mState = newState;
+            mPrevX = x;
+            mPrevY = y;
         }
     }
 

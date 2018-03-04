@@ -69,7 +69,7 @@ public class ControllerMouse extends ControllerBaseView {
             if (e2.getPointerCount() == 1) {
                 // 720x540 : Amiga resolution
                 float compFac = Math.max(720.0f/getWidth(),540.0f/getHeight());
-                transmitEvent(UInput.createMouseEvent(-compFac*distanceX, -compFac*distanceY));
+                transmitEvent(UInput.createMouseEvent(-compFac*distanceX, -compFac*distanceY, false));
                 return false;
             }
             return false;

@@ -620,12 +620,13 @@ public class UInput {
     return obj;
   }
 
-  public static JSONObject createMouseEvent(float dx, float dy) {
+  public static JSONObject createMouseEvent(float dx, float dy, boolean absRel) {
     JSONObject obj = new JSONObject();
     try {
       obj.put("type", "MOUSE");
-      obj.put("dx", dx);
-      obj.put("dy", dy);
+      obj.put("absrel", absRel ? "ABS" : "REL");
+      obj.put(absRel ? "x" : "dx", dx);
+      obj.put(absRel ? "y" : "dy", dy);
     } catch (Exception e) {
       Log.d(TAG,e.getMessage());
     }
