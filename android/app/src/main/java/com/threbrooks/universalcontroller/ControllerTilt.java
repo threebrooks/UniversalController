@@ -108,7 +108,7 @@ public class ControllerTilt extends ControllerBaseView implements SensorEventLis
 
             State newState = State.Center;
             if (angle > Math.PI/8.0) newState = State.Right;
-            if (angle < Math.PI/8.0) newState = State.Left;
+            if (angle < -Math.PI/8.0) newState = State.Left;
 
             if(newState == State.Right) {
                 if (mState == State.Center) {
@@ -131,11 +131,17 @@ public class ControllerTilt extends ControllerBaseView implements SensorEventLis
                     transmitEvent(UInput.createKeyEvent(UInput.KEY_LEFT, true));
                 }
             }
+            mState = newState;
         }
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
+    }
+
+    public void shutdown() {
+        mSensorManager.unregisterListener(this);
+        mSensorManager.unregisterListener(this);
     }
 }

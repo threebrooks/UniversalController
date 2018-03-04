@@ -430,4 +430,6 @@ public class ControllerCommodore64 extends BitmapControllerView {
         }
         return false;
     }
+
+    public void shutdown() {}
 }

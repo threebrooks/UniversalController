@@ -75,4 +75,6 @@ public class ControllerMouse extends ControllerBaseView {
             return false;
         }
     };
+
+    public void shutdown() {}
 }

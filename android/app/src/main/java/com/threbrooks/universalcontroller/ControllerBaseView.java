@@ -21,4 +21,6 @@ public abstract class ControllerBaseView extends LinearLayout {
     public void transmitEvent(JSONObject json) {
         mBTManager.writeString(json.toString());
     }
+
+    public abstract void shutdown();
 }

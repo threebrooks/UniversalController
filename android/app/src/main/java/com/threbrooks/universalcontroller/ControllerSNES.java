@@ -37,4 +37,6 @@ public class ControllerSNES extends BitmapControllerView {
         }
         return false;
     }
+
+    public void shutdown() {}
 }

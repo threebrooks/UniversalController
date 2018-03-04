@@ -411,4 +411,6 @@ public class ControllerCommodoreAmiga extends BitmapControllerView {
         }
         return false;
     }
+
+    public void shutdown() {}
 }

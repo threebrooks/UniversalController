@@ -121,6 +121,8 @@ public class FullscreenActivity extends AppCompatActivity implements BluetoothMa
                 }
                 int childCount = mainLL.getChildCount();
                 if (childCount > 1) {
+                    ControllerBaseView oldView = (ControllerBaseView)mainLL.getChildAt(childCount-1);
+                    oldView.shutdown();
                     mainLL.removeViewAt(childCount - 1);
                 }
                 mainLL.addView(newView);
