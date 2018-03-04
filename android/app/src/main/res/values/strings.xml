@@ -6,11 +6,13 @@
     <string name="controller_amiga">Commodore Amiga</string>
     <string name="controller_snes">Super Nintendo</string>
     <string name="controller_mouse">Mouse</string>
+    <string name="controller_tilt">Tilt</string>
 
     <string-array name="controller_init_list">
         <item>controller_snes</item>
         <item>controller_c64</item>
         <item>controller_amiga</item>
         <item>controller_mouse</item>
+        <item>controller_tilt</item>
     </string-array>
 </resources>

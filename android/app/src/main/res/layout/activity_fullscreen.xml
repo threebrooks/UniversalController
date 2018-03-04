@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.threbrooks.bluetoothkeyboard.com.threbrooks.universalcontroller.FullscreenActivity"
+    tools:context="com.threbrooks.universalcontroller.FullscreenActivity"
     android:background="#000000">
     <android.support.v7.widget.Toolbar
         android:id="@+id/action_bar"

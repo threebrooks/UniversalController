@@ -110,6 +110,8 @@ public class FullscreenActivity extends AppCompatActivity implements BluetoothMa
                     newView = new ControllerSNES(FullscreenActivity.this);
                 }  else if (resId == R.string.controller_mouse) {
                     newView = new ControllerMouse(FullscreenActivity.this, mainLL);
+                }  else if (resId == R.string.controller_tilt) {
+                    newView = new ControllerTilt(FullscreenActivity.this, mainLL);
                 }
                 if (newView != null) {
                     newView.setBluetoothManager(mBluetoothManager);
