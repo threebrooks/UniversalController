@@ -17,8 +17,10 @@ time.sleep(5)
 def getAllKeys():
   out = []
   for name, obj in inspect.getmembers(uinput):
-    if ((name.upper() == name) and (not name.startswith("_"))):
+    if ((name.upper() == name) and (not name.startswith("_")) and (not name.startswith("ABS_"))):
       out.append(obj)
+  out.append(uinput.ABS_X+(0, 255, 0, 0))
+  out.append(uinput.ABS_Y+(0, 255, 0, 0))
   return out
 
 device = uinput.Device(getAllKeys())
@@ -91,6 +93,7 @@ while True:
                   #print "Emitting "+keyStringEl
                   device.emit(key, press)
               elif (type == "MOUSE"):
+                #print str(js['absrel'])
                 if (js['absrel'] == "REL"):
                   xAccum += js['dx'] 
                   yAccum += js['dy'] 
@@ -108,6 +111,7 @@ while True:
                       lastXInt = newX
                       lastYInt = newY
                 elif (js['absrel'] == "ABS"):
+                  print "Emitting mouse move "+str(js['x'])+","+str(js['y'])
                   device.emit(uinput.ABS_X, int(js['x']), syn=False)
                   device.emit(uinput.ABS_Y, int(js['y']))
   
