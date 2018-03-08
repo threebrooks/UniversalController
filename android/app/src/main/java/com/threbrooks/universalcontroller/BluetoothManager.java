@@ -64,7 +64,7 @@ public class BluetoothManager {
     }
 
     public void writeString(String string) {
-        if (mConnectThread != null) mConnectThread.write((string+"@@@").getBytes());
+        if (mConnectThread != null) mConnectThread.write(string.getBytes());
     }
 
     public void setBluetoothDevice(BluetoothDevice device) {
@@ -158,15 +158,24 @@ public class BluetoothManager {
                     continue;
                 }
 
+                synchronized (mQueue) {
+                    mQueue.clear();
+                }
+
                 while(true) {
                     try {
                         synchronized (mQueue) {
                             mQueue.wait();
+                            String totalString = "";
                             while (mQueue.size() > 0) {
                                 byte[] bytes = mQueue.removeLast();
-                                outStream.write(bytes);
-                                Log.d(TAG, "Sent " + new String(bytes));
+                                totalString += new String(bytes, "UTF-8")+"@@@";
                             }
+                            byte[] bytes = totalString.getBytes();
+                            byte[] header = (""+bytes.length+":").getBytes();
+                            outStream.write(header);
+                            outStream.write(bytes);
+                            //Log.d(TAG, "Sent " + new String(bytes));
                         }
                     } catch (Exception e) {
                         Log.e(TAG, "Error occurred when sending data", e);

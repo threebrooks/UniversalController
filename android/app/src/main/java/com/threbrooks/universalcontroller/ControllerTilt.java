@@ -42,7 +42,7 @@ public class ControllerTilt extends ControllerBaseView implements SensorEventLis
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 int action = motionEvent.getActionMasked();
                 if (!(action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_UP)) return false;
-                transmitEvent(UInput.createKeyEvent(UInput.BTN_LEFT, motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN));
+                transmitEvent(UInput.createKeyEvent(UInput.BTN_JOYSTICK, motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN));
                 return false;
             }
         });
@@ -52,7 +52,7 @@ public class ControllerTilt extends ControllerBaseView implements SensorEventLis
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 int action = motionEvent.getActionMasked();
                 if (!(action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_UP)) return false;
-                transmitEvent(UInput.createKeyEvent(UInput.BTN_RIGHT, motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN));
+                transmitEvent(UInput.createKeyEvent(UInput.BTN_JOYSTICK, motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN));
                 return false;
             }
         });
@@ -103,15 +103,16 @@ public class ControllerTilt extends ControllerBaseView implements SensorEventLis
             float leftRightAngle = orientationAngles[1]-leftRightCalib;
             float forwardBackwardAngle = orientationAngles[2]-forwardBackwardCalib;
 
-            //Log.d(TAG, ""+orientationAngles[0]+" "+orientationAngles[1]+" "+orientationAngles[2]);
-
             int x = 180;
-            if (leftRightAngle < Math.PI/8.0) x = 255;
-            else if (leftRightAngle > -Math.PI/8.0) x = 0;
+            if (leftRightAngle < -Math.PI/8.0) x = 255;
+            else if (leftRightAngle > Math.PI/8.0) x = 0;
 
             int y = 180;
             if (forwardBackwardAngle > Math.PI/8.0) y = 255;
             else if (forwardBackwardAngle < -Math.PI/8.0) y = 0;
+
+
+            //Log.d(TAG, "Angle: "+leftRightAngle+"="+x+","+forwardBackwardAngle+"="+y);
 
             if (x != mPrevX || y != mPrevY) {
                 transmitEvent(UInput.createMouseEvent(x, y, true));

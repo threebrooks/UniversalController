@@ -23,13 +23,13 @@ public class ControllerMouse extends ControllerBaseView {
         super(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mLayout = (LinearLayout)inflater.inflate(R.layout.controller_mouse, null, true);
-        mLayout.setLongClickable(false);
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         mLayout.setLayoutParams(layoutParams);
         addView(mLayout);
 
         mGestureDetector = new GestureDetector(context ,mSimpleGestureListener);
+        mGestureDetector.setIsLongpressEnabled(false);
 
         mLeftButton = (Button)findViewById(R.id.controller_mouse_left_button);
         mLeftButton.setOnTouchListener(new OnTouchListener() {
