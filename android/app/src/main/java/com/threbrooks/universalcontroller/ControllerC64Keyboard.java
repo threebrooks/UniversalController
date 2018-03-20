@@ -5,11 +5,11 @@ import android.util.Log;
 
 import com.threbrooks.universalcontroller.R;
 
-public class ControllerCommodore64 extends BitmapControllerView {
+public class ControllerC64Keyboard extends BitmapControllerView {
 
     static String TAG = "ControllerSNES";
 
-    public ControllerCommodore64(Context context) {
+    public ControllerC64Keyboard(Context context) {
         super(context, R.drawable.controller_c64, R.drawable.controller_c64_mask);
     }
 

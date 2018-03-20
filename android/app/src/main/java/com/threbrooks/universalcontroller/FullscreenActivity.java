@@ -16,8 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
-import com.threbrooks.universalcontroller.R;
-
 import java.util.ArrayList;
 
 /**
@@ -103,9 +101,9 @@ public class FullscreenActivity extends AppCompatActivity implements BluetoothMa
                 int resId = res.getIdentifier( getPackageName()+":string/"+controllerListStringRes[i], null, null);
                 LinearLayout mainLL = (LinearLayout) findViewById(R.id.MainLinearLayout);
                 if (resId == R.string.controller_c64) {
-                    newView = new ControllerCommodore64(FullscreenActivity.this);
+                    newView = new ControllerC64Keyboard(FullscreenActivity.this);
                 } else if (resId == R.string.controller_amiga) {
-                    newView = new ControllerCommodoreAmiga(FullscreenActivity.this);
+                    newView = new ControllerAmigaKeyboard(FullscreenActivity.this);
                 } else if (resId == R.string.controller_snes) {
                     newView = new ControllerSNES(FullscreenActivity.this);
                 }  else if (resId == R.string.controller_mouse) {

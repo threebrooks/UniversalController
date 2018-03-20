@@ -5,9 +5,9 @@ import android.util.Log;
 
 import com.threbrooks.universalcontroller.R;
 
-public class ControllerCommodoreAmiga extends BitmapControllerView {
+public class ControllerAmigaKeyboard extends BitmapControllerView {
 
-    public ControllerCommodoreAmiga(Context context) {
+    public ControllerAmigaKeyboard(Context context) {
         super(context, R.drawable.controller_amiga, R.drawable.controller_amiga_mask);
     }
 
