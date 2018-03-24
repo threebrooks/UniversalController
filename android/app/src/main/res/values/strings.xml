@@ -2,17 +2,17 @@
     <string name="app_name">Universal Controller</string>
     <string name="action_settings">action settings</string>
 
-    <string name="controller_c64">Commodore 64</string>
-    <string name="controller_amiga">Commodore Amiga</string>
+    <string name="controller_c64_keyboard">Commodore 64 Keyboard</string>
+    <string name="controller_amiga_keyboard">Commodore Amiga Keyboard</string>
     <string name="controller_snes">Super Nintendo</string>
     <string name="controller_mouse">Mouse</string>
-    <string name="controller_tilt">Tilt</string>
+    <string name="controller_digital_joystick">Digital Joystick</string>
 
     <string-array name="controller_init_list">
         <item>controller_snes</item>
-        <item>controller_c64</item>
-        <item>controller_amiga</item>
+        <item>controller_c64_keyboard</item>
+        <item>controller_amiga_keyboard</item>
         <item>controller_mouse</item>
-        <item>controller_tilt</item>
+        <item>controller_digital_joystick</item>
     </string-array>
 </resources>

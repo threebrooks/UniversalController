@@ -8,7 +8,7 @@ import com.threbrooks.universalcontroller.R;
 public class ControllerAmigaKeyboard extends BitmapControllerView {
 
     public ControllerAmigaKeyboard(Context context) {
-        super(context, R.drawable.controller_amiga, R.drawable.controller_amiga_mask);
+        super(context, R.drawable.controller_amiga, R.drawable.controller_amiga_mask, true);
     }
 
     enum AmigaKey {

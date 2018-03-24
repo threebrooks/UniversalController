@@ -9,11 +9,14 @@ import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Vibrator;
 import android.support.v4.widget.ImageViewCompat;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 
 class BitmapControllerImageView extends android.support.v7.widget.AppCompatImageView {
+
+    static String TAG = "BitmapControllerImageView";
 
     Bitmap mDisplayBitmap = null;
     Bitmap mMaskBitmap = null;
@@ -21,6 +24,7 @@ class BitmapControllerImageView extends android.support.v7.widget.AppCompatImage
     ScaleGestureDetector mScaleDetector = null;
     GestureDetector mGestureDetector = null;
     ImageViewCallback mCallback = null;
+    boolean mScaleAndPinch = false;
 
     Vibrator mVibrator = null;
 
@@ -28,17 +32,20 @@ class BitmapControllerImageView extends android.support.v7.widget.AppCompatImage
         public boolean  onPixelClick(int r, int g, int b, boolean pressed);
     }
 
-    public BitmapControllerImageView(Context context, int displayBitmapResId, int maskBitmapResId, ImageViewCallback callback) {
+    public BitmapControllerImageView(Context context, int displayBitmapResId, int maskBitmapResId, ImageViewCallback callback, boolean scaleAndPinch) {
         super(context);
 
         mCallback = callback;
+        mScaleAndPinch = scaleAndPinch;
 
         Resources res = getResources();
         mDisplayBitmap = ((BitmapDrawable) res.getDrawable(displayBitmapResId)).getBitmap();
         mMaskBitmap = ((BitmapDrawable) res.getDrawable(maskBitmapResId)).getBitmap();
 
-        mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
-        mGestureDetector = new GestureDetector(context ,mSimpleGestureListener);
+        if (mScaleAndPinch) {
+            mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
+            mGestureDetector = new GestureDetector(context, mSimpleGestureListener);
+        }
 
         mVibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
     }
@@ -48,8 +55,9 @@ class BitmapControllerImageView extends android.support.v7.widget.AppCompatImage
         Matrix invMat = new Matrix();
         mM.invert(invMat);
         float[] points = new float[2];
-        points[0] = e.getX();
-        points[1] = e.getY();
+        int pointerIndex = (e.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK) >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
+        points[0] = e.getX(e.getPointerId(pointerIndex));
+        points[1] = e.getY(e.getPointerId(pointerIndex));
         invMat.mapPoints(points);
         if (points[0] >= 0.0f && points[0] < mMaskBitmap.getWidth() && points[1] >= 0.0f && points[1] < mMaskBitmap.getHeight())
         {
@@ -73,15 +81,18 @@ class BitmapControllerImageView extends android.support.v7.widget.AppCompatImage
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        mScaleDetector.onTouchEvent(ev);
-        mGestureDetector.onTouchEvent(ev);
-        if ((ev.getPointerCount() == 1) && (ev.getActionMasked() == MotionEvent.ACTION_DOWN || ev.getActionMasked() == MotionEvent.ACTION_UP)) {
+        if (mScaleAndPinch) {
+            mScaleDetector.onTouchEvent(ev);
+            mGestureDetector.onTouchEvent(ev);
+        }
+        if ((ev.getActionMasked() == MotionEvent.ACTION_DOWN || ev.getActionMasked() == MotionEvent.ACTION_UP || ev.getActionMasked() == MotionEvent.ACTION_POINTER_DOWN || ev.getActionMasked() == MotionEvent.ACTION_POINTER_UP)) {
             int maskPixel = getPixelsFromMotionEvent(ev);
             int maskPixelR = Color.red(maskPixel);
             int maskPixelG = Color.green(maskPixel);
             int maskPixelB = Color.blue(maskPixel);
-            if (mCallback.onPixelClick(maskPixelR, maskPixelG, maskPixelB, ev.getActionMasked() == MotionEvent.ACTION_DOWN)) {
-                if (ev.getActionMasked() == MotionEvent.ACTION_DOWN) mVibrator.vibrate(10);
+            Log.d(TAG, ev.toString());
+            if (mCallback.onPixelClick(maskPixelR, maskPixelG, maskPixelB, ev.getActionMasked() == MotionEvent.ACTION_DOWN || ev.getActionMasked() == MotionEvent.ACTION_POINTER_DOWN)) {
+                if (ev.getActionMasked() == MotionEvent.ACTION_DOWN || ev.getActionMasked() == MotionEvent.ACTION_POINTER_DOWN) mVibrator.vibrate(10);
             }
             return true;
         }

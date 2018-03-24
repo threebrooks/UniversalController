@@ -100,16 +100,16 @@ public class FullscreenActivity extends AppCompatActivity implements BluetoothMa
                 ControllerBaseView newView = null;
                 int resId = res.getIdentifier( getPackageName()+":string/"+controllerListStringRes[i], null, null);
                 LinearLayout mainLL = (LinearLayout) findViewById(R.id.MainLinearLayout);
-                if (resId == R.string.controller_c64) {
+                if (resId == R.string.controller_c64_keyboard) {
                     newView = new ControllerC64Keyboard(FullscreenActivity.this);
-                } else if (resId == R.string.controller_amiga) {
+                } else if (resId == R.string.controller_amiga_keyboard) {
                     newView = new ControllerAmigaKeyboard(FullscreenActivity.this);
                 } else if (resId == R.string.controller_snes) {
                     newView = new ControllerSNES(FullscreenActivity.this);
                 }  else if (resId == R.string.controller_mouse) {
                     newView = new ControllerMouse(FullscreenActivity.this, mainLL);
-                }  else if (resId == R.string.controller_tilt) {
-                    newView = new ControllerTilt(FullscreenActivity.this, mainLL);
+                }  else if (resId == R.string.controller_digital_joystick) {
+                    newView = new ControllerDigitalJoystick(FullscreenActivity.this);
                 }
                 if (newView != null) {
                     newView.setBluetoothManager(mBluetoothManager);

@@ -10,7 +10,7 @@ public class ControllerC64Keyboard extends BitmapControllerView {
     static String TAG = "ControllerSNES";
 
     public ControllerC64Keyboard(Context context) {
-        super(context, R.drawable.controller_c64, R.drawable.controller_c64_mask);
+        super(context, R.drawable.controller_c64, R.drawable.controller_c64_mask, true);
     }
 
     enum C64Key {

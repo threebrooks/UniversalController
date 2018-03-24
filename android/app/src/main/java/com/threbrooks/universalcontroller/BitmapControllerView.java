@@ -10,10 +10,10 @@ public abstract class BitmapControllerView extends ControllerBaseView implements
 
     static String TAG = "BitmapControllerView";
 
-    public BitmapControllerView(Context context, int displayBitmapResId, int maskBitmapResId) {
+    public BitmapControllerView(Context context, int displayBitmapResId, int maskBitmapResId, boolean scaleAndPinch) {
         super(context);
 
-        mIV = new BitmapControllerImageView(context, displayBitmapResId, maskBitmapResId, this);
+        mIV = new BitmapControllerImageView(context, displayBitmapResId, maskBitmapResId, this, scaleAndPinch);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         mIV.setLayoutParams(layoutParams);
         addView(mIV);

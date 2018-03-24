@@ -13,7 +13,7 @@ public class ControllerSNES extends BitmapControllerView {
     static String TAG = "ControllerSNES";
 
     public ControllerSNES(Context context) {
-        super(context, R.drawable.controller_snes, R.drawable.controller_snes_mask);
+        super(context, R.drawable.controller_snes, R.drawable.controller_snes_mask, false);
     }
 
     String blueToKeyCode(int b) {
