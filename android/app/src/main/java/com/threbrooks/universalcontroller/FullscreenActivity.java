@@ -110,6 +110,8 @@ public class FullscreenActivity extends AppCompatActivity implements BluetoothMa
                     newView = new ControllerMouse(FullscreenActivity.this, mainLL);
                 }  else if (resId == R.string.controller_digital_joystick) {
                     newView = new ControllerDigitalJoystick(FullscreenActivity.this);
+                }  else if (resId == R.string.controller_android_keyboard) {
+                    newView = new ControllerAndroidKeyboard(FullscreenActivity.this, mainLL);
                 }
                 if (newView != null) {
                     newView.setBluetoothManager(mBluetoothManager);
