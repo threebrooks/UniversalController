@@ -5,4 +5,4 @@ UniversalController is an Android app that connects to your RetroPie via Bluetoo
 
 1. SNES/RetroPie
 
-![SNES controller](https://github.com/threebrooks/UniversalController/images/snes.png)
+![SNES controller](https://github.com/threebrooks/UniversalController/blob/master/images/snes.png)
