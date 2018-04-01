@@ -4,17 +4,17 @@
 
     <string name="controller_c64_keyboard">Commodore 64 Keyboard</string>
     <string name="controller_amiga_keyboard">Commodore Amiga Keyboard</string>
-    <string name="controller_snes">Super Nintendo</string>
+    <string name="controller_snes">Super Nintendo/RetroPie</string>
     <string name="controller_mouse">Mouse</string>
     <string name="controller_digital_joystick">Digital Joystick</string>
     <string name="controller_android_keyboard">Android Keyboard</string>
 
     <string-array name="controller_init_list">
         <item>controller_snes</item>
+        <item>controller_android_keyboard</item>
         <item>controller_c64_keyboard</item>
         <item>controller_amiga_keyboard</item>
-        <item>controller_mouse</item>
         <item>controller_digital_joystick</item>
-        <item>controller_android_keyboard</item>
+        <item>controller_mouse</item>
     </string-array>
 </resources>

@@ -52,19 +52,21 @@ class BitmapControllerImageView extends android.support.v7.widget.AppCompatImage
 
 
     int getPixelsFromMotionEvent(MotionEvent e) {
-        Matrix invMat = new Matrix();
-        mM.invert(invMat);
-        float[] points = new float[2];
-        int pointerIndex = (e.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK) >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
-        points[0] = e.getX(e.getPointerId(pointerIndex));
-        points[1] = e.getY(e.getPointerId(pointerIndex));
-        invMat.mapPoints(points);
-        if (points[0] >= 0.0f && points[0] < mMaskBitmap.getWidth() && points[1] >= 0.0f && points[1] < mMaskBitmap.getHeight())
-        {
-            return mMaskBitmap.getPixel((int) points[0], (int) points[1]);
-        } else {
-            return 0;
-        }
+        try {
+            Matrix invMat = new Matrix();
+            mM.invert(invMat);
+            float[] points = new float[2];
+            int pointerIndex = (e.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK) >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
+            points[0] = e.getX(e.getPointerId(pointerIndex));
+            points[1] = e.getY(e.getPointerId(pointerIndex));
+            invMat.mapPoints(points);
+            if (points[0] >= 0.0f && points[0] < mMaskBitmap.getWidth() && points[1] >= 0.0f && points[1] < mMaskBitmap.getHeight()) {
+                return mMaskBitmap.getPixel((int) points[0], (int) points[1]);
+            } else {
+                return 0;
+            }
+        } catch (Exception exc) {}
+        return 0;
     }
 
     GestureDetector.SimpleOnGestureListener mSimpleGestureListener = new GestureDetector.SimpleOnGestureListener() {
