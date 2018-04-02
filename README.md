@@ -83,7 +83,7 @@ Two more places need to be adjusted:
 1. android/app/src/main/res/values/strings.xml : Add your new controller as a new string value, and also add it to the controller_init_list (this is the order displayed in the GUI)
 2. android/app/src/main/java/com/threbrooks/universalcontroller/FullscreenActivity.java : Add your class into that long if-then-else section
 
-Test and debug!
+Test and debug, and then create a pull request!
 
 ### Adding another fancy controller
 
