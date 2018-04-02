@@ -84,7 +84,7 @@ Now, the way these keyboard-like controllers work is that there are two PNG file
 
 The app only shows the Display picture, but when you touch a section of the picture, the underlying code (the "BitmapControllerView" class you inherit from does this for you) looks up the exact same image location in the Mask picture, and calls the onPixelClick() function with the RGB value of the mask image's pixel you clicked on.
 
-If you look at the controller_c64_mask.png picture, you see that all the buttons are yellow boxes. They are all different shades of yellow however! Each box has a different RGB value. (to make it easy in the code, they all have the same red and green value, the only thing changing is the blue value). When you create your own masking picture, write down the different RGB values and what key they map to, and then carry that over to the onPixelClick function.
+If you look at the Mask picture, you see that all the buttons are yellow boxes. They are all different shades of yellow however! Each box has a different RGB value. (to make it easy in the code, they all have the same red and green value, the only thing changing is the blue value). When you create your own masking picture, write down the different RGB values and what key they map to, and then carry that over to the onPixelClick function.
 The good thing about this approach is that there is no limitation as to the shape of the keys, or even that they are contiguous! You can map the two Alt keys to the same color for example if you want.
 
 So, to add another controller, create the two pictures and put them into that folder, then refer to them in the constructor of your controller class. 
