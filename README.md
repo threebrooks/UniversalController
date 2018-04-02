@@ -76,11 +76,12 @@ The app is located in the android/ folder of the project, it's an Android Studio
 
 That's the easy one. You should start with copying maybe the Commodore 64 keyboard code and use that as a template.
 
-Now, the way these keyboard-like controllers work is that there are two PNG files (look at the android/app/src/main/res/drawable folder), one normal picture of the keyboard (e.g. controller_c64.png) and one "mask" picture (controller_c64_mask.png) that is the same size as the normal one.
+Now, the way these keyboard-like controllers work is that there are two PNG files (look at the android/app/src/main/res/drawable folder): one normal picture of the keyboard (e.g. controller_c64.png) and one "mask" picture (controller_c64_mask.png) that is the same size as the normal one.
 
 The app only shows the main picture, but when you touch a section of the picture, the underlying code (the "BitmapControllerView" class you inherit from does this for you) looks up the exact same image location in the mask picture, and calls the onPixelClick() function with the RGB value of the mask image's pixel you clicked on.
 
-If you look at the controller_c64_mask.png picture, you see that all the buttons are yellow boxes. Each box has a different RGB value (actually, to make it easy in the code, they all have the same red and green value, the only thing changing is the blue value).
+If you look at the controller_c64_mask.png picture, you see that all the buttons are yellow boxes. They are all different shades of yellow however! Each box has a different RGB value. (to make it easy in the code, they all have the same red and green value, the only thing changing is the blue value). When you create your own masking picture, write down the different RGB values and what key they map to, and then carry that over to the onPixelClick function.
+The good thing about this approach is that there is no limitation as to the shape of the keys, or even that they are contiguous! You can map the two Alt keys to the same color for example if you want.
 
 So, to add another controller, create the two pictures and put them into that folder, then refer to them in the constructor of your controller class. 
 
