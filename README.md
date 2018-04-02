@@ -62,5 +62,29 @@ Hopefully the installation went well, then restart the RPi with
 
 Don't know yet, nobody has asked me anything yet :)
 
-## Adding more controllers
+## Contributing
 
+The app is located in the android/ folder of the project, it's an Android Studio project.
+
+### Adding another keyboard-like controller
+
+That's the easy one. You should start with copying maybe the Commodore 64 keyboard code and use that as a template.
+
+Now, the way these keyboard-like controllers work is that there are two PNG files (look at the android/app/src/main/res/drawable folder), one normal picture of the keyboard (e.g. controller_c64.png) and one "mask" picture (controller_c64_mask.png) that is the same size as the normal one.
+
+The app only shows the main picture, but when you touch a section of the picture, the underlying code (the "BitmapControllerView" class you inherit from does this for you) looks up the exact same image location in the mask picture, and calls the onPixelClick() function with the RGB value of the mask image's pixel you clicked on.
+
+If you look at the controller_c64_mask.png picture, you see that all the buttons are yellow boxes. Each box has a different RGB value (actually, to make it easy in the code, they all have the same red and green value, the only thing changing is the blue value).
+
+So, to add another controller, create the two pictures and put them into that folder, then refer to them in the constructor of your controller class. 
+
+Two more places need to be adjusted:
+
+1. android/app/src/main/res/values/strings.xml : Add your new controller as a new string value, and also add it to the controller_init_list (this is the order displayed in the GUI)
+2. android/app/src/main/java/com/threbrooks/universalcontroller/FullscreenActivity.java : Add your class into that long if-then-else section
+
+Test and debug!
+
+### Adding another fancy controller
+
+That's a bit harder. You have to inherit from ControllerBaseView and build up your own layout.
