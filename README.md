@@ -52,7 +52,7 @@ Hopefully the installation went well, then restart the RPi with
 
 * Go into the Bluetooth settings, select to pair a new device
 * Your RetroPie should (allow some time for it to show up) show as "retropie". Pair with it
-* Download the "UniversalController" app on the Google Play Store (TODO: add link!)
+* Download the "UniversalController" app on the Google Play Store (https://play.google.com/store/apps/details?id=com.threbrooks.bluetoothkeyboard)
 * In the top bar, tap on the right item (left of the Bluetooth icon) and select "retropie"
 * After a few seconds, the Bluetooth icon should change to that it is connected
 * You're ready to go! The drop-down list of platforms is to the left of the Bluetooth list
