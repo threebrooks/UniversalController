@@ -41,7 +41,7 @@ Some of the more crammed keyboards (Amiga, C64) support pinch and zoom. E.g. if 
 * On the command line:
 * `cd`
 * `git clone https://github.com/threebrooks/UniversalController`
-* `cd linux`
+* `cd UniversalController/linux`
 * `sudo ./install.sh`
 
 Hopefully the installation went well, then restart the RPi with 
