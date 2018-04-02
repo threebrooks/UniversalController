@@ -57,3 +57,10 @@ Hopefully the installation went well, then restart the RPi with
 * After a few seconds, the Bluetooth icon should change to that it is connected
 * You're ready to go! The drop-down list of platforms is to the left of the Bluetooth list
 * To reiterate, the C64 and the Amiga keyboard support pinch and zoom (two fingers)
+
+## FAQ
+
+Don't know yet, nobody has asked me anything yet :)
+
+## Adding more controllers
+
