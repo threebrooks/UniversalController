@@ -79,6 +79,7 @@ That's the easy one. You should start with copying maybe the Commodore 64 keyboa
 Now, the way these keyboard-like controllers work is that there are two PNG files (look at the android/app/src/main/res/drawable folder): one normal picture of the keyboard (e.g. controller_c64.png) and one "mask" picture (controller_c64_mask.png) that is the same size as the normal one.
 
 <img src="https://github.com/threebrooks/UniversalController/blob/master/android/app/src/main/res/drawable/controller_c64.png" alt="C64 keyboard" width="200px"/> "Display" image
+
 <img src="https://github.com/threebrooks/UniversalController/blob/master/android/app/src/main/res/drawable/controller_c64_mask.png" alt="C64 mask image" width="200px"/> "Mask" image
 
 The app only shows the Display picture, but when you touch a section of the picture, the underlying code (the "BitmapControllerView" class you inherit from does this for you) looks up the exact same image location in the Mask picture, and calls the onPixelClick() function with the RGB value of the mask image's pixel you clicked on.
