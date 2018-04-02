@@ -36,6 +36,12 @@ Some of the more crammed keyboards (Amiga, C64) support pinch and zoom. E.g. if 
 ## Installation
 
 ### On the RPi
+
+** MAKE A BACKUP OF YOUR SYSTEM ***
+Seriously, this app is alpha-stage at best. It patches at least one system file (the Bluetooth config), so something could go wrong.
+
+Ok, here's the installation procedure:
+
 * Attach keyboard to RetroPie (this is just for installation)
 * Drop out of RetroPie by hitting F4
 * On the command line:
