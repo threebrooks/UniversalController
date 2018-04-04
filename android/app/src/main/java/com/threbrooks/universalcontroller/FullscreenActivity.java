@@ -160,11 +160,21 @@ public class FullscreenActivity extends AppCompatActivity implements BluetoothMa
                 }
             });
         }
-        if (mActionMenuBluetoothIV != null) mActionMenuBluetoothIV.setBackgroundResource(R.drawable.bluetooth_connected);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mActionMenuBluetoothIV != null)
+                    mActionMenuBluetoothIV.setBackgroundResource(R.drawable.bluetooth_connected);
+            }});
     }
 
     public void bluetoothDisconnected() {
-        if (mActionMenuBluetoothIV != null) mActionMenuBluetoothIV.setBackgroundResource(R.drawable.bluetooth_disconnected);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mActionMenuBluetoothIV != null)
+                    mActionMenuBluetoothIV.setBackgroundResource(R.drawable.bluetooth_disconnected);
+            }});
     }
 
 }
