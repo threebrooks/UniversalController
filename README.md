@@ -101,3 +101,8 @@ Test and debug, and then create a pull request!
 ### Adding another fancy controller
 
 That's a bit harder. You have to inherit from ControllerBaseView and build up your own layout.
+
+### Licensing etc
+
+I take zero responsibility for any damage this tool might do to your Android device or Raspberry Pi (I can't see how it even could, but 
+better point it out). The tool is as-is, license is entirely and completely free. Improve, copy, modify, do whatever you like.
