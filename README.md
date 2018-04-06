@@ -33,6 +33,12 @@ Android keyboard are optimized for usability, this can be useful for writing lon
 
 Some of the more crammed keyboards (Amiga, C64) support pinch and zoom. E.g. if a game needs repeated use of the F-keys you can zoom in on those.
 
+## What is it not?
+
+This app does not replace an actual joystick or game controller, for two reasons: one, Bluetooth has an inherent latency that kills any fast-moving action game, two, when you look at the screen your hands slowly move out of position on your smartphone because there is no tactile feedback.
+
+So, this tools is awesome for navigating through menus and stuff, and even for slow gameplay. You will not successfully play Great Giana Sisters with it.
+
 ## Installation
 
 ### On the RPi
