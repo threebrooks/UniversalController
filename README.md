@@ -68,7 +68,7 @@ Hopefully the installation went well, then restart the RPi with
 * Your RetroPie should show as "retropie" (allow for a good amount of time, like a minute, and regularly hit refresh on your Bluetooth list on the phone). Pair with retropie when it shows up!
 * Download the "UniversalController" app on the Google Play Store (https://play.google.com/store/apps/details?id=com.threbrooks.bluetoothkeyboard)
 * In the top bar, tap on the right item (left of the Bluetooth icon) and select "retropie"
-* After a few seconds, the Bluetooth icon should change to that it is connected
+* After a few seconds, the Bluetooth icon should change to that it is connected (the one in the app, not your phone's icon. That one is annoyingly reserved for Android-native connections)
 * You're ready to go! The drop-down list of platforms is to the left of the Bluetooth list
 * To reiterate, the C64 and the Amiga keyboard support pinch and zoom (two fingers)
 
