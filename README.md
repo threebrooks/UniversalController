@@ -80,6 +80,7 @@ But, likely questions to be asked?
 
 * **The keys are tiny, i have a hard time hitting the right one:** The C64 and Amiga keyboards support two-finger pinch and zoom
 * **How do i use the modifier keys? (Shift, Commodore Key etc):** They are "tap to activate". So, tap Shift, then tap Run/Stop for example to do the C64 "Shift Run/Stop" combination
+* **The "Digital Joystick" doesn't work:** That screen emits numpad keycodes for the directions. In VICE you have to switch the joystick port to "numpad" to make it work
 
 ## Contributing
 
