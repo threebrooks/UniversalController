@@ -70,6 +70,11 @@ Hopefully the installation went well, then restart the RPi with
 
 Don't know yet, nobody has asked me anything yet :)
 
+But, likely questions to be asked?
+
+* The keys are tiny, i have a hard time hitting the right one: The C64 and Amiga support two-finger pinch snd zoom
+* How do i use the modifier keys? (Shift, Commodore Key etc): They are "tap to activate". So, tap Shift, then tap Run/Stop for example
+
 ## Contributing
 
 The app is located in the android/ folder of the project, it's an Android Studio project.
