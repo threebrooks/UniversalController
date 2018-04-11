@@ -1,8 +1,12 @@
 package com.threbrooks.universalcontroller;
 
+import android.provider.Contacts;
 import android.util.Log;
+import android.view.KeyEvent;
 
 import org.json.JSONObject;
+
+import java.lang.reflect.Field;
 
 /**
  * Created by Me on 2018-01-28.
@@ -607,6 +611,23 @@ public class UInput {
   public static String ABS_MT_TOOL_X = "ABS_MT_TOOL_X";
   public static String ABS_MT_TOOL_Y = "ABS_MT_TOOL_Y";
   public static String ABS_MAX = "ABS_MAX";
+
+  public static String KeyEvent2UInput(int keyCode, KeyEvent event) throws Exception {
+      String keyString = KeyEvent.keyCodeToString(keyCode);
+      String uinputString =
+              keyString.replace("KEYCODE","KEY")
+                      .replace("_BRACKET", "BRACE")
+                      .replace("EQUALS", "EQUAL");
+      if (uinputString.equals("KEY_DEL")) uinputString = UInput.KEY_BACKSPACE;
+      if (uinputString.equals("KEY_PERIOD")) uinputString = UInput.KEY_DOT;
+      if (uinputString.equals("KEY_AT")) return UInput.KEY_LEFTSHIFT + "|" + UInput.KEY_2;
+      if (uinputString.equals("KEY_POUND")) return UInput.KEY_LEFTSHIFT + "|" + UInput.KEY_3;
+      if (uinputString.equals("KEY_PLUS")) return UInput.KEY_LEFTSHIFT + "|" + UInput.KEY_EQUAL;
+      if (uinputString.equals("KEY_STAR")) return UInput.KEY_LEFTSHIFT + "|" + UInput.KEY_8;
+      Field field = UInput.class.getField(uinputString);
+      String uinputFieldString = (String)field.get(null);
+      return (event.isShiftPressed() ? UInput.KEY_LEFTSHIFT + "|" : "") + uinputFieldString;
+  }
 
   public static JSONObject createKeyEvent(String keyString, boolean pressed) {
     JSONObject obj = new JSONObject();

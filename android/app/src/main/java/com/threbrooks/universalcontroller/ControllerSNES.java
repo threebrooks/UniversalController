@@ -4,10 +4,6 @@ import android.content.Context;
 
 import com.threbrooks.universalcontroller.R;
 
-/**
- * Created by Me on 2018-01-24.
- */
-
 public class ControllerSNES extends BitmapControllerView {
 
     static String TAG = "ControllerSNES";
@@ -27,6 +23,8 @@ public class ControllerSNES extends BitmapControllerView {
         else if (b == 7) return UInput.KEY_Y;
         else if (b == 8) return UInput.KEY_A;
         else if (b == 9) return UInput.KEY_B;
+        else if (b == 10) return UInput.KEY_L;
+        else if (b == 11) return UInput.KEY_R;
         else return "";
     }
 

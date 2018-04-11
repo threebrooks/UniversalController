@@ -45,18 +45,10 @@ public class ControllerAndroidKeyboard extends ControllerBaseView {
         requestFocus();
     }
 
-    String getKeyString(int keyCode) throws Exception {
-        String keyString = KeyEvent.keyCodeToString(keyCode);
-        String uinputString = keyString.replace("KEYCODE","KEY");
-        Field field = UInput.class.getField(uinputString);
-        String uinputFieldString = (String)field.get(null);
-        return uinputFieldString;
-    }
-
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         try {
-            transmitEvent(UInput.createKeyEvent(getKeyString(keyCode), false));
+            transmitEvent(UInput.createKeyEvent(UInput.KeyEvent2UInput(keyCode, event), false));
         } catch (Exception e) {
         }
         return true;
@@ -65,7 +57,7 @@ public class ControllerAndroidKeyboard extends ControllerBaseView {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         try {
-            transmitEvent(UInput.createKeyEvent(getKeyString(keyCode), true));
+            transmitEvent(UInput.createKeyEvent(UInput.KeyEvent2UInput(keyCode, event), true));
         } catch (Exception e) {
             Log.d(TAG,e.getMessage());
         }
