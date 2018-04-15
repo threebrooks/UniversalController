@@ -1,9 +1,14 @@
 package com.threbrooks.universalcontroller;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -26,6 +31,7 @@ public class FullscreenActivity extends AppCompatActivity implements BluetoothMa
 
     String TAG = "universalcontroller";
     String APP_VERSION="1.0.0";
+    static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 0;
 
     BluetoothManager mBluetoothManager = null;
     ImageView mActionMenuBluetoothIV = null;
@@ -43,6 +49,10 @@ public class FullscreenActivity extends AppCompatActivity implements BluetoothMa
         setSupportActionBar(myToolbar);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+        }
 
         mBluetoothManager= new BluetoothManager(this, this);
     }
@@ -112,6 +122,8 @@ public class FullscreenActivity extends AppCompatActivity implements BluetoothMa
                     newView = new ControllerDigitalJoystick(FullscreenActivity.this);
                 }  else if (resId == R.string.controller_android_keyboard) {
                     newView = new ControllerAndroidKeyboard(FullscreenActivity.this, mainLL);
+                }  else if (resId == R.string.controller_intellivision) {
+                    newView = new ControllerIntellivision(FullscreenActivity.this);
                 }
                 if (newView != null) {
                     newView.setBluetoothManager(mBluetoothManager);

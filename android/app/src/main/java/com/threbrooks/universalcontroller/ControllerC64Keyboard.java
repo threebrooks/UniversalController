@@ -1,6 +1,7 @@
 package com.threbrooks.universalcontroller;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 
 import com.threbrooks.universalcontroller.R;
@@ -10,7 +11,9 @@ public class ControllerC64Keyboard extends BitmapControllerView {
     static String TAG = "ControllerSNES";
 
     public ControllerC64Keyboard(Context context) {
-        super(context, R.drawable.controller_c64, R.drawable.controller_c64_mask, true);
+        super(context, true);
+        setMaskBitmap(((BitmapDrawable) getResources().getDrawable(R.drawable.controller_c64_mask)).getBitmap());
+        setLayerBitmap(((BitmapDrawable) getResources().getDrawable(R.drawable.controller_c64)).getBitmap(), 0);
     }
 
     enum C64Key {

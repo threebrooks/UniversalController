@@ -1,6 +1,7 @@
 package com.threbrooks.universalcontroller;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 
 import com.threbrooks.universalcontroller.R;
@@ -8,7 +9,9 @@ import com.threbrooks.universalcontroller.R;
 public class ControllerAmigaKeyboard extends BitmapControllerView {
 
     public ControllerAmigaKeyboard(Context context) {
-        super(context, R.drawable.controller_amiga, R.drawable.controller_amiga_mask, true);
+        super(context, true);
+        setMaskBitmap(((BitmapDrawable) getResources().getDrawable(R.drawable.controller_amiga_mask)).getBitmap());
+        setLayerBitmap(((BitmapDrawable) getResources().getDrawable(R.drawable.controller_amiga)).getBitmap(), 0);
     }
 
     enum AmigaKey {

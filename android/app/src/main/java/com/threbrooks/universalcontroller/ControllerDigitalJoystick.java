@@ -1,6 +1,7 @@
 package com.threbrooks.universalcontroller;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -21,7 +22,9 @@ public class ControllerDigitalJoystick extends BitmapControllerView {
     static String TAG = "ControllerDigitalJoystick";
 
     public ControllerDigitalJoystick(Context context) {
-        super(context, R.drawable.controller_digital_joystick, R.drawable.controller_digital_joystick_mask, false);
+        super(context, false);
+        setMaskBitmap(((BitmapDrawable) getResources().getDrawable(R.drawable.controller_digital_joystick_mask)).getBitmap());
+        setLayerBitmap(((BitmapDrawable) getResources().getDrawable(R.drawable.controller_digital_joystick)).getBitmap(), 0);
     }
 
     String mPrevDirKey = "";

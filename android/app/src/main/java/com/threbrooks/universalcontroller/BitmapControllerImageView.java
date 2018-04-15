@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Vibrator;
 import android.support.v4.widget.ImageViewCompat;
@@ -14,11 +15,13 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 
+import java.util.ArrayList;
+
 class BitmapControllerImageView extends android.support.v7.widget.AppCompatImageView {
 
     static String TAG = "BitmapControllerImageView";
 
-    Bitmap mDisplayBitmap = null;
+    ArrayList<Bitmap> mDisplayBitmaps = new ArrayList<Bitmap>();
     Bitmap mMaskBitmap = null;
     private Matrix mM = null;
     ScaleGestureDetector mScaleDetector = null;
@@ -32,15 +35,11 @@ class BitmapControllerImageView extends android.support.v7.widget.AppCompatImage
         public boolean  onPixelClick(int r, int g, int b, boolean pressed);
     }
 
-    public BitmapControllerImageView(Context context, int displayBitmapResId, int maskBitmapResId, ImageViewCallback callback, boolean scaleAndPinch) {
+    public BitmapControllerImageView(Context context, ImageViewCallback callback, boolean scaleAndPinch) {
         super(context);
 
         mCallback = callback;
         mScaleAndPinch = scaleAndPinch;
-
-        Resources res = getResources();
-        mDisplayBitmap = ((BitmapDrawable) res.getDrawable(displayBitmapResId)).getBitmap();
-        mMaskBitmap = ((BitmapDrawable) res.getDrawable(maskBitmapResId)).getBitmap();
 
         if (mScaleAndPinch) {
             mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
@@ -48,6 +47,16 @@ class BitmapControllerImageView extends android.support.v7.widget.AppCompatImage
         }
 
         mVibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+    }
+
+    public void setMaskBitmap(Bitmap bitmap) {
+        mMaskBitmap = bitmap;
+    }
+
+    public void setLayerBitmap(Bitmap bitmap, int idx) {
+        for(int arrrayIdx = mDisplayBitmaps.size(); arrrayIdx <= idx; arrrayIdx++) mDisplayBitmaps.add(null);
+        mDisplayBitmaps.set(idx, bitmap);
+        invalidate();
     }
 
 
@@ -104,9 +113,9 @@ class BitmapControllerImageView extends android.support.v7.widget.AppCompatImage
     @Override
     public void onSizeChanged(int w, int h, int oldw, int oldh) {
         if (mM == null) {
-            float scaleFac = Math.min((float)h/mDisplayBitmap.getHeight(), (float)w/mDisplayBitmap.getWidth());
+            float scaleFac = Math.min((float)h/mMaskBitmap.getHeight(), (float)w/mMaskBitmap.getWidth());
             mM = new Matrix();
-            mM.postTranslate(-mDisplayBitmap.getWidth()/2,-mDisplayBitmap.getHeight()/2);
+            mM.postTranslate(-mMaskBitmap.getWidth()/2,-mMaskBitmap.getHeight()/2);
             mM.postScale(scaleFac, scaleFac);
             mM.postTranslate(w/2,h/2);
         }
@@ -123,10 +132,16 @@ class BitmapControllerImageView extends android.support.v7.widget.AppCompatImage
             return true;
         }
     }
+
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (mDisplayBitmap != null && mM != null) canvas.drawBitmap(mDisplayBitmap, mM, null);
+        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+
+        for (int layerIdx = 0; layerIdx < mDisplayBitmaps.size(); layerIdx++) {
+            Bitmap bitmap = mDisplayBitmaps.get(layerIdx);
+            if (bitmap != null && mM != null) canvas.drawBitmap(bitmap, mM, null);
+        }
     }
 }

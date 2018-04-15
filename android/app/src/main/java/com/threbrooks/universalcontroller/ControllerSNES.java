@@ -1,6 +1,7 @@
 package com.threbrooks.universalcontroller;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 
 import com.threbrooks.universalcontroller.R;
 
@@ -9,7 +10,9 @@ public class ControllerSNES extends BitmapControllerView {
     static String TAG = "ControllerSNES";
 
     public ControllerSNES(Context context) {
-        super(context, R.drawable.controller_snes, R.drawable.controller_snes_mask, false);
+        super(context, false);
+        setMaskBitmap(((BitmapDrawable) getResources().getDrawable(R.drawable.controller_snes_mask)).getBitmap());
+        setLayerBitmap(((BitmapDrawable) getResources().getDrawable(R.drawable.controller_snes)).getBitmap(), 0);
     }
 
     String blueToKeyCode(int b) {
