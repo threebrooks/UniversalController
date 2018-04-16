@@ -7,8 +7,11 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -38,6 +41,7 @@ public class ControllerIntellivision extends BitmapControllerView {
     ArrayList<File> mOverlays = new ArrayList<File>();
     Context mCtx = null;
     Bitmap mMaskBitmap = null;
+    Bitmap mOverlayBitmap = null;
 
     public ControllerIntellivision(Context context) {
         super(context, false);
@@ -49,6 +53,9 @@ public class ControllerIntellivision extends BitmapControllerView {
 
         setLayerBitmap(((BitmapDrawable) getResources().getDrawable(R.drawable.controller_intellivision_top_layer)).getBitmap(), 2);
 
+        mOverlayBitmap = Bitmap.createBitmap(mMaskBitmap.getWidth(), mMaskBitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        setLayerBitmap(mOverlayBitmap, 1);
+
         File directory = new File(Environment.getExternalStorageDirectory().toString()+"/INTV");
         if (directory.exists() && directory.listFiles() != null) {
             for (File file : directory.listFiles()) {
@@ -56,12 +63,20 @@ public class ControllerIntellivision extends BitmapControllerView {
             }
         }
 
-        setOverlayBitmap(mOverlays.get(0).getAbsolutePath());
+        render();
     }
 
-    private void setOverlayBitmap(String filePath) {
+    private void render() {
+        mOverlayBitmap.eraseColor(Color.TRANSPARENT);
+        renderOverlay();
+        renderLeftRight();
+        invalidate();
+        forceLayout();
+    }
+
+    private void renderOverlay() {
+        String filePath = mCurrOverlayIdx == 0 ? null : mOverlays.get(mCurrOverlayIdx-1).getAbsolutePath();
         if (filePath == null) {
-            setLayerBitmap(null, 1);
             return;
         }
 
@@ -80,14 +95,16 @@ public class ControllerIntellivision extends BitmapControllerView {
         float leftVisibleEdgeNeedsToBe = mMaskBitmap.getHeight()*0.806f;
         matrix.postTranslate(bottomVisibleEdgeNeedsToBe-scaleFactor*bitmap.getHeight()+0.06f*scaleFactor*bitmap.getWidth(), leftVisibleEdgeNeedsToBe-0.91f*scaleFactor*bitmap.getWidth());
 
-        Bitmap overlayBitmap = Bitmap.createBitmap(mMaskBitmap.getWidth(), mMaskBitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(overlayBitmap);
+        Canvas canvas = new Canvas(mOverlayBitmap);
         Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
         canvas.drawBitmap(bitmap, matrix, paint);
-        setLayerBitmap(overlayBitmap, 1);
+    }
 
-        invalidate();
-        forceLayout();
+    private void renderLeftRight() {
+        Canvas canvas = new Canvas(mOverlayBitmap);
+        Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
+        Bitmap lrBitmap = ((BitmapDrawable) getResources().getDrawable(mCurrentLR == ControllerLeftRight.Left ? R.drawable.controller_intellivision_l : R.drawable.controller_intellivision_r)).getBitmap();
+        canvas.drawBitmap(lrBitmap, 0.037f*mOverlayBitmap.getWidth(),0.724f*mOverlayBitmap.getHeight(), paint);
     }
 
     String mPrevDirKey = "";
@@ -110,9 +127,12 @@ public class ControllerIntellivision extends BitmapControllerView {
                     int inc = (b == 0) ? 1 : -1;
                     mCurrOverlayIdx = (mCurrOverlayIdx+mOverlays.size()+1+inc)%(mOverlays.size()+1);
                 }
-                setOverlayBitmap(mCurrOverlayIdx == 0 ? null : mOverlays.get(mCurrOverlayIdx-1).getAbsolutePath());
+                render();
             }
-            else if (b == 2) { // Toggle left/right controller
+            else if (pressed && b == 2) { // Toggle left/right controller
+                if (mCurrentLR == ControllerLeftRight.Left) mCurrentLR = ControllerLeftRight.Right;
+                else mCurrentLR = ControllerLeftRight.Left;
+                render();
             }
             else if (b == 3) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_KP1 : UInput.KEY_1;
             else if (b == 4) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_KP2 : UInput.KEY_2;
