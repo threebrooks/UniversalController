@@ -175,7 +175,7 @@ public class BluetoothManager {
                             byte[] header = (""+bytes.length+":").getBytes();
                             outStream.write(header);
                             outStream.write(bytes);
-                            //Log.d(TAG, "Sent " + new String(bytes));
+                            Log.d(TAG, "Sent " + new String(bytes));
                         }
                     } catch (Exception e) {
                         Log.e(TAG, "Error occurred when sending data", e);

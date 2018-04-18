@@ -107,7 +107,6 @@ public class ControllerIntellivision extends BitmapControllerView {
         canvas.drawBitmap(lrBitmap, 0.037f*mOverlayBitmap.getWidth(),0.724f*mOverlayBitmap.getHeight(), paint);
     }
 
-    String mPrevDirKey = "";
     int mCurrOverlayIdx = 0;
 
     enum ControllerLeftRight {
@@ -147,8 +146,9 @@ public class ControllerIntellivision extends BitmapControllerView {
             else if (b == 13) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_DOT : UInput.KEY_0;
             else if (b == 14) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_ENTER : UInput.KEY_EQUAL;
 
-            else if (b == 17) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_LEFTSHIFT : UInput.KEY_RIGHTSHIFT;
-            else if (b == 18) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_LEFTALT : UInput.KEY_RIGHTALT;
+            else if (b == 15 || b == 17) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_RIGHTSHIFT : UInput.KEY_LEFTSHIFT;
+            else if (b == 18) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_RIGHTALT : UInput.KEY_LEFTCTRL;
+            else if (b == 16) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_RIGHTCTRL : UInput.KEY_LEFTALT;
 
             else if (b == 19) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_I : UInput.KEY_E;
             else if (b == 20) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_O : UInput.KEY_R;
@@ -158,15 +158,9 @@ public class ControllerIntellivision extends BitmapControllerView {
             else if (b == 24) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_N : UInput.KEY_Z;
             else if (b == 25) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_J : UInput.KEY_S;
             else if (b == 26) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_W : UInput.KEY_U;
-
-
-            if (!mPrevDirKey.equals(dirKey) && !mPrevDirKey.equals("") && pressed) {
-                transmitEvent(UInput.createKeyEvent(mPrevDirKey, false));
-            }
+            else if (b == 27) dirKey = UInput.KEY_F1;
 
             transmitEvent(UInput.createKeyEvent(dirKey, pressed));
-
-            mPrevDirKey = dirKey;
 
             return true;
         }
