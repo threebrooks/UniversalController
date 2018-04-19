@@ -29,7 +29,10 @@ A generic touchscreen joystick (Note: To use it you have to switch the joystick 
 6. Android Keyboard
 <img src="https://github.com/threebrooks/UniversalController/blob/master/images/android_keyboard.png" alt="Android keyboard" width="300px"/>
 
-Android keyboard are optimized for usability, this can be useful for writing longer text
+Android keyboards are optimized for usability, this can be useful for writing longer text
+
+7. Intellivision
+<img src="https://github.com/threebrooks/UniversalController/blob/master/images/intellivision.png" alt="Intellivision" width="300px"/>
 
 Some of the more crammed keyboards (Amiga, C64) support pinch and zoom. E.g. if a game needs repeated use of the F-keys you can zoom in on those.
 
