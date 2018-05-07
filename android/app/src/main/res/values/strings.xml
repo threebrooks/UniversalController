@@ -19,4 +19,9 @@
         <item>controller_mouse</item>
         <item>controller_intellivision</item>
     </string-array>
+
+    <string-array name="settings_slider_list">
+        <item>Controller</item>
+        <item>Bluetooth</item>
+    </string-array>
 </resources>

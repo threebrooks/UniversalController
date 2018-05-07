@@ -1,18 +1,48 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/MainLinearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.threbrooks.universalcontroller.FullscreenActivity"
-    android:background="#000000">
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/action_bar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"/>
-</LinearLayout>
+    android:background="#000000"
+    tools:context="com.threbrooks.universalcontroller.FullscreenActivity">
+
+      <LinearLayout
+          android:id="@+id/settings_slider"
+          android:layout_width="400dp"
+          android:layout_height="match_parent"
+          android:orientation="horizontal">
+            <ListView
+                android:id="@+id/settings_slider_main"
+                android:layout_width="0dp"
+                android:layout_weight="0.4"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimaryDarkSemiTransparent"/>
+            <ListView
+                android:id="@+id/settings_slider_select"
+                android:layout_width="0dp"
+                android:layout_weight="0.6"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                android:background="@color/colorPrimaryDarkSemiTransparent"/>
+      </LinearLayout>
+
+      <ImageView
+          android:id="@+id/settings_button"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:layout_marginRight="10dp"
+          android:layout_marginTop="10dp"
+          android:src="@drawable/ic_settings_black_24dp"
+          android:layout_alignParentRight="true"
+          android:layout_alignParentTop="true"/>
+      <ImageView
+          android:id="@+id/bluetooth_icon"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:layout_marginTop="10dp"
+          android:src="@drawable/bluetooth_disconnected"
+          android:layout_toLeftOf="@id/settings_button"
+          android:layout_alignParentTop="true"/>
+
+</RelativeLayout>
