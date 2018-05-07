@@ -29,7 +29,10 @@ A generic touchscreen joystick (Note: To use it you have to switch the joystick 
 6. Android Keyboard
 <img src="https://github.com/threebrooks/UniversalController/blob/master/images/android_keyboard.png" alt="Android keyboard" width="300px"/>
 
-Android keyboard are optimized for usability, this can be useful for writing longer text
+Android keyboards are optimized for usability, this can be useful for writing longer text
+
+7. Intellivision
+<img src="https://github.com/threebrooks/UniversalController/blob/master/images/intellivision.png" alt="Intellivision" width="300px"/>
 
 Some of the more crammed keyboards (Amiga, C64) support pinch and zoom. E.g. if a game needs repeated use of the F-keys you can zoom in on those.
 
@@ -77,6 +80,7 @@ Hopefully the installation went well, then restart the RPi with
 * **The keys are tiny, i have a hard time hitting the right one:** The C64 and Amiga keyboards support two-finger pinch and zoom
 * **How do i use the modifier keys? (Shift, Commodore Key etc):** They are "tap to activate". So, tap Shift, then tap Run/Stop for example to do the C64 "Shift Run/Stop" combination
 * **The "Digital Joystick" doesn't work:** That screen emits numpad keycodes for the directions. In VICE you have to switch the joystick port to "numpad" to make it work
+* **How do I add Intellivision overlays?** Connect your phone/tablet to a computer, and create a directory called "INTV". Place the overlay pictures into that directory. Next time on app start, when you push the arrows on the controller, you can switch between the overlays.
 
 ## Contributing
 
