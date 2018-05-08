@@ -31,6 +31,11 @@ public class ControllerDigitalJoystick extends BitmapControllerView {
 
     public boolean onPixelClick(int r, int g, int b, boolean pressed) {
         Log.d(TAG, r+","+g+","+b);
+        if (!mPrevDirKey.equals("") && !pressed) {
+            transmitEvent(UInput.createKeyEvent(mPrevDirKey, false));
+            mPrevDirKey = "";
+            return true;
+        }
         if (r == 247 & g == 247) {
             String dirKey = "";
             if (b == 0) dirKey = UInput.KEY_KP8;
@@ -42,10 +47,6 @@ public class ControllerDigitalJoystick extends BitmapControllerView {
             else if (b == 6) dirKey = UInput.KEY_KP4;
             else if (b == 7) dirKey = UInput.KEY_KP7;
             else if (b == 8) dirKey = UInput.KEY_KP0;
-
-            if (!mPrevDirKey.equals(dirKey) && !mPrevDirKey.equals("") && pressed) {
-                transmitEvent(UInput.createKeyEvent(mPrevDirKey, false));
-            }
 
             transmitEvent(UInput.createKeyEvent(dirKey, pressed));
 

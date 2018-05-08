@@ -116,8 +116,15 @@ public class ControllerIntellivision extends BitmapControllerView {
 
     ControllerLeftRight mCurrentLR = ControllerLeftRight.Left;
 
+    String mPrevDirKey = "";
+
     public boolean onPixelClick(int r, int g, int b, boolean pressed) {
         Log.d(TAG, r+","+g+","+b);
+        if (!mPrevDirKey.equals("") && !pressed) {
+            transmitEvent(UInput.createKeyEvent(mPrevDirKey, false));
+            mPrevDirKey = "";
+            return true;
+        }
         if (r == 255 & g == 255) {
             String dirKey = "";
             if (pressed && (b == 0 || b == 1)) {
@@ -161,6 +168,8 @@ public class ControllerIntellivision extends BitmapControllerView {
             else if (b == 27) dirKey = UInput.KEY_F1;
 
             transmitEvent(UInput.createKeyEvent(dirKey, pressed));
+
+            mPrevDirKey = dirKey;
 
             return true;
         }
