@@ -187,6 +187,8 @@ public class FullscreenActivity extends AppCompatActivity implements BluetoothMa
             newView = new ControllerAndroidKeyboard(FullscreenActivity.this, mainCL);
         } else if (resId == R.string.controller_intellivision) {
             newView = new ControllerIntellivision(FullscreenActivity.this);
+        } else if (resId == R.string.controller_colecovision) {
+            newView = new ControllerColecoVision(FullscreenActivity.this);
         }
         if (newView != null) {
             newView.setBluetoothManager(mBluetoothManager);

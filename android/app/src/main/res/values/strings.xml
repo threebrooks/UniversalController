@@ -9,6 +9,7 @@
     <string name="controller_digital_joystick">Digital Joystick</string>
     <string name="controller_android_keyboard">Android Keyboard</string>
     <string name="controller_intellivision">Intellivision</string>
+    <string name="controller_colecovision">ColecoVision</string>
 
     <string-array name="controller_init_list">
         <item>controller_snes</item>
@@ -18,6 +19,7 @@
         <item>controller_digital_joystick</item>
         <item>controller_mouse</item>
         <item>controller_intellivision</item>
+        <item>controller_colecovision</item>
     </string-array>
 
     <string-array name="settings_slider_list">
