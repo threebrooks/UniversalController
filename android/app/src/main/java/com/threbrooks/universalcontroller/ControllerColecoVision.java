@@ -56,7 +56,7 @@ public class ControllerColecoVision extends BitmapControllerView {
         mOverlayBitmap = Bitmap.createBitmap(mMaskBitmap.getWidth(), mMaskBitmap.getHeight(), Bitmap.Config.ARGB_8888);
         setLayerBitmap(mOverlayBitmap, 1);
 
-        File directory = new File(Environment.getExternalStorageDirectory().toString()+"/COOLCV");
+        File directory = new File(Environment.getExternalStorageDirectory().toString()+"/CoolCV");
         if (directory.exists() && directory.listFiles() != null) {
             for (File file : directory.listFiles()) {
                 mOverlays.add(file);
@@ -88,12 +88,12 @@ public class ControllerColecoVision extends BitmapControllerView {
         matrix.postTranslate(-bitmap.getWidth()/2, -bitmap.getHeight()/2);
         matrix.postRotate(-90);
         matrix.postTranslate(bitmap.getHeight()/2, bitmap.getWidth()/2);
-        float overlayVisibleNeedstoBe = mMaskBitmap.getHeight()*0.62f;
-        float scaleFactor = overlayVisibleNeedstoBe/(0.86f*bitmap.getWidth());
+        float overlayVisibleNeedstoBe = mMaskBitmap.getHeight()*0.762f;
+        float scaleFactor = overlayVisibleNeedstoBe/(0.879f*bitmap.getWidth());
         matrix.postScale(scaleFactor,scaleFactor);
-        float bottomVisibleEdgeNeedsToBe = mMaskBitmap.getWidth()*0.589f;
-        float leftVisibleEdgeNeedsToBe = mMaskBitmap.getHeight()*0.806f;
-        matrix.postTranslate(bottomVisibleEdgeNeedsToBe-scaleFactor*bitmap.getHeight()+0.06f*scaleFactor*bitmap.getWidth(), leftVisibleEdgeNeedsToBe-0.91f*scaleFactor*bitmap.getWidth());
+        float bottomVisibleEdgeNeedsToBe = mMaskBitmap.getWidth()*0.943f;
+        float leftVisibleEdgeNeedsToBe = mMaskBitmap.getHeight()*0.81f;
+        matrix.postTranslate(bottomVisibleEdgeNeedsToBe-scaleFactor*bitmap.getHeight()+0.06f*scaleFactor*bitmap.getWidth(), leftVisibleEdgeNeedsToBe-0.95f*scaleFactor*bitmap.getWidth());
 
         Canvas canvas = new Canvas(mOverlayBitmap);
         Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
@@ -103,8 +103,8 @@ public class ControllerColecoVision extends BitmapControllerView {
     private void renderLeftRight() {
         Canvas canvas = new Canvas(mOverlayBitmap);
         Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
-        Bitmap lrBitmap = ((BitmapDrawable) getResources().getDrawable(mCurrentLR == ControllerLeftRight.Left ? R.drawable.controller_intellivision_l : R.drawable.controller_intellivision_r)).getBitmap();
-        canvas.drawBitmap(lrBitmap, 0.037f*mOverlayBitmap.getWidth(),0.724f*mOverlayBitmap.getHeight(), paint);
+        Bitmap lrBitmap = ((BitmapDrawable) getResources().getDrawable(mCurrentLR == ControllerLeftRight.Left ? R.drawable.controller_colecovision_l : R.drawable.controller_colecovision_r)).getBitmap();
+        canvas.drawBitmap(lrBitmap, 0.395f*mOverlayBitmap.getWidth(),0.649f*mOverlayBitmap.getHeight(), paint);
     }
 
     int mCurrOverlayIdx = 0;
@@ -128,7 +128,7 @@ public class ControllerColecoVision extends BitmapControllerView {
         if (r == 255 & g == 255) {
             String dirKey = "";
             if (pressed && (b == 0 || b == 1)) {
-                if (mOverlays.size() == 0) Toast.makeText(mCtx, "No overlays placed in COOLCV folder", Toast.LENGTH_LONG);
+                if (mOverlays.size() == 0) Toast.makeText(mCtx, "No overlays placed in CoolCV folder", Toast.LENGTH_LONG);
                 else {
                     int inc = (b == 0) ? 1 : -1;
                     mCurrOverlayIdx = (mCurrOverlayIdx+mOverlays.size()+1+inc)%(mOverlays.size()+1);
@@ -140,32 +140,31 @@ public class ControllerColecoVision extends BitmapControllerView {
                 else mCurrentLR = ControllerLeftRight.Left;
                 render();
             }
-            else if (b == 3) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_KP1 : UInput.KEY_1;
-            else if (b == 4) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_KP2 : UInput.KEY_2;
-            else if (b == 5) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_KP3 : UInput.KEY_3;
-            else if (b == 6) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_KP4 : UInput.KEY_4;
-            else if (b == 7) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_KP5 : UInput.KEY_5;
-            else if (b == 8) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_KP6 : UInput.KEY_6;
-            else if (b == 9) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_KP7 : UInput.KEY_7;
-            else if (b == 10) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_KP8 : UInput.KEY_8;
-            else if (b == 11) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_KP9 : UInput.KEY_9;
-            else if (b == 12) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_KP0 : UInput.KEY_MINUS;
-            else if (b == 13) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_DOT : UInput.KEY_0;
-            else if (b == 14) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_ENTER : UInput.KEY_EQUAL;
+            else if (b == 3) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_R : UInput.KEY_1;
+            else if (b == 4) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_T : UInput.KEY_2;
+            else if (b == 5) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_U : UInput.KEY_3;
+            else if (b == 6) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_F : UInput.KEY_4;
+            else if (b == 7) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_G : UInput.KEY_5;
+            else if (b == 8) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_H : UInput.KEY_6;
+            else if (b == 9) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_V : UInput.KEY_7;
+            else if (b == 10) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_B : UInput.KEY_8;
+            else if (b == 11) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_N : UInput.KEY_9;
+            else if (b == 12) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_J : UInput.KEY_O;
+            else if (b == 13) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_K : UInput.KEY_0;
+            else if (b == 14) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_L : UInput.KEY_P;
 
-            else if (b == 15 || b == 17) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_RIGHTSHIFT : UInput.KEY_LEFTSHIFT;
-            else if (b == 18) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_RIGHTALT : UInput.KEY_LEFTCTRL;
-            else if (b == 16) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_RIGHTCTRL : UInput.KEY_LEFTALT;
+            else if (b == 17) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_SPACE : UInput.KEY_TAB;
+            else if (b == 15) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_M : UInput.KEY_Q;
 
-            else if (b == 19) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_I : UInput.KEY_E;
-            else if (b == 20) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_O : UInput.KEY_R;
-            else if (b == 21) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_K : UInput.KEY_D;
-            else if (b == 22) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_COMMA : UInput.KEY_C;
-            else if (b == 23) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_M : UInput.KEY_X;
-            else if (b == 24) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_N : UInput.KEY_Z;
-            else if (b == 25) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_J : UInput.KEY_S;
-            else if (b == 26) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_W : UInput.KEY_U;
-            else if (b == 27) dirKey = UInput.KEY_F1;
+            else if (b == 19) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_UP : UInput.KEY_W;
+            else if (b == 20) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_UP + "|" + UInput.KEY_RIGHT : UInput.KEY_W  + "|" + UInput.KEY_D;
+            else if (b == 21) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_RIGHT : UInput.KEY_D;
+            else if (b == 22) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_RIGHT + "|" + UInput.KEY_DOWN : UInput.KEY_D  + "|" + UInput.KEY_S;
+            else if (b == 23) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_DOWN : UInput.KEY_S;
+            else if (b == 24) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_DOWN + "|" + UInput.KEY_LEFT : UInput.KEY_S  + "|" + UInput.KEY_A;
+            else if (b == 25) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_LEFT : UInput.KEY_A;
+            else if (b == 26) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_LEFT + "|" + UInput.KEY_UP : UInput.KEY_A  + "|" + UInput.KEY_W;
+            else if (b == 27) dirKey = UInput.KEY_LEFTSHIFT + "|" + UInput.KEY_F12;
 
             transmitEvent(UInput.createKeyEvent(dirKey, pressed));
 
