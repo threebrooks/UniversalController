@@ -48,9 +48,11 @@ public class ControllerDigitalJoystick extends BitmapControllerView {
             else if (b == 7) dirKey = UInput.KEY_KP7;
             else if (b == 8) dirKey = UInput.KEY_KP0;
 
-            transmitEvent(UInput.createKeyEvent(dirKey, pressed));
+            if (!dirKey.equals("")) {
+                transmitEvent(UInput.createKeyEvent(dirKey, pressed));
 
-            mPrevDirKey = dirKey;
+                mPrevDirKey = dirKey;
+            }
 
             return true;
         }

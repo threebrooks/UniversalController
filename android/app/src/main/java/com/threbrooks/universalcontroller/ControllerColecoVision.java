@@ -164,11 +164,13 @@ public class ControllerColecoVision extends BitmapControllerView {
             else if (b == 24) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_DOWN + "|" + UInput.KEY_LEFT : UInput.KEY_S  + "|" + UInput.KEY_A;
             else if (b == 25) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_LEFT : UInput.KEY_A;
             else if (b == 26) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_LEFT + "|" + UInput.KEY_UP : UInput.KEY_A  + "|" + UInput.KEY_W;
-            else if (b == 27) dirKey = UInput.KEY_LEFTSHIFT + "|" + UInput.KEY_F12;
+            else if (b == 27) dirKey = UInput.KEY_F24;
 
-            transmitEvent(UInput.createKeyEvent(dirKey, pressed));
+            if (!dirKey.equals("")) {
+                transmitEvent(UInput.createKeyEvent(dirKey, pressed));
 
-            mPrevDirKey = dirKey;
+                mPrevDirKey = dirKey;
+            }
 
             return true;
         }

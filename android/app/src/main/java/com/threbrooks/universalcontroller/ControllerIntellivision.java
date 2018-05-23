@@ -167,9 +167,11 @@ public class ControllerIntellivision extends BitmapControllerView {
             else if (b == 26) dirKey = mCurrentLR ==  ControllerLeftRight.Left ? UInput.KEY_W : UInput.KEY_U;
             else if (b == 27) dirKey = UInput.KEY_F1;
 
-            transmitEvent(UInput.createKeyEvent(dirKey, pressed));
+            if (!dirKey.equals("")) {
+                transmitEvent(UInput.createKeyEvent(dirKey, pressed));
 
-            mPrevDirKey = dirKey;
+                mPrevDirKey = dirKey;
+            }
 
             return true;
         }
